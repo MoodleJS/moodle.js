@@ -18,6 +18,7 @@
         "noEmit": false,
         "jsx": "react-jsx",
         "declaration": true,
+        "sourceMap": true,
         "outDir": "dist"
     },
     "include": [

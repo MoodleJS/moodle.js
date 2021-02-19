@@ -171,14 +171,14 @@ class BaseClient {
         if (options.method === 'POST') {
             req_options.form = req_options.qs;
             delete req_options.qs;
-        } else {
+        } else if (options.method !== 'GET') {
             this.logger.error("[call] unsupported request method");
             throw 'unsupported request method';
         }
 
         console.log(req_options);
 
-        return request(req_options);
+        return request(req_options).catch(r => console.log('R:' + r));
     };
 
     /**
@@ -275,8 +275,8 @@ class BaseClient {
 
 
 async function authenticateClient<C extends BaseClient>(client: C, username: string, password: string): Promise<C> {
-
     client.logger.debug("[init] requesting %s token from %s", client.service, client.wwwroot);
+
     var options = {
         uri: client.wwwroot + "/login/token.php",
         method: "POST",
@@ -304,6 +304,7 @@ async function authenticateClient<C extends BaseClient>(client: C, username: str
         }
 
     } catch (err) {
+        console.log('R:' + err);
         throw (err);
     };
 };
