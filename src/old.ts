@@ -13,7 +13,7 @@
 
 import request from 'request-promise-native';
 
-export function init(options: BaseClientOptions) {
+export async function init(options: BaseClientOptions) {
     var c = new BaseClient(options);
 
     if (c.token) return c;
@@ -22,7 +22,7 @@ export function init(options: BaseClientOptions) {
         //@ts-ignore
         if (!(options.username && options.password)) throw "coding error: no username/password (or token) provided";
         //@ts-ignore
-        return authenticateClient(c, options.username, options.password);
+        return (await authenticateClient(c, options.username, options.password));
     }
 }
 
@@ -130,6 +130,7 @@ class BaseClient {
         //Default
         options.args ??= {};
         options.method ??= 'GET';
+        console.count(options.method);
         //@ts-ignore
         options.method = options.method.toUpperCase();
         options.settings ??= {};
@@ -174,6 +175,8 @@ class BaseClient {
             this.logger.error("[call] unsupported request method");
             throw 'unsupported request method';
         }
+
+        console.log(req_options);
 
         return request(req_options);
     };
