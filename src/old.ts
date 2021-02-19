@@ -200,7 +200,7 @@ class client {
      * @param {string} [options.preview=null] - Preview mode for images (tinyicon|thumb|bigthumb), full image otherwise.
      * @param {bool} [options.offline=false] - Download the file from the repository even if it is an external link.
      * @return {Promise}
-     */
+     * /
     download(options) {
         var self = this;
 
@@ -250,7 +250,7 @@ class client {
      * @param {number} [options.itemid] - Allows to force uploading to the given area item.
      * @param {string} [options.targetpath=/] - The path to upload files to within the area item.
      * @return {Promise}
-     */
+     * /
     upload(options = {}) {
         var self = this;
 
@@ -280,6 +280,7 @@ class client {
 
         return request_promise(request_options);
     }
+    */
 }
 
 
