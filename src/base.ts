@@ -32,7 +32,7 @@ type Logger = {
 
 type RawBaseClientOptions = {
     /** The logger to use, defaults to a dummy non-logger. */
-    logger?: Logger
+    logger?: Logger | true
     /** The moodle hostname to connect to. */
     wwwroot?: string
     /** The web service to use */
@@ -50,13 +50,21 @@ export type BaseClientOptions = (RawBaseClientOptions & {
     password: string
 })
 
+//A default Logger implementation
+export var Logger = {
+    debug: (...str: any[]) => { console.debug('[' + 'debug'.green + ']', ...str) },
+    info: (...str: any[]) => { console.info('[' + 'info '.cyan + ']', ...str) },
+    warn: (...str: any[]) => { console.warn('[' + 'warn '.yellow + ']', ...str) },
+    error: (...str: any[]) => { console.error('[' + 'error'.red + ']', ...str) }
+}
+
 export class BaseClient {
     public logger: Logger = {
         // Set-up a dummy logger doing nothing.
-        debug: (...str: any[]) => { console.debug('[' + 'debug'.green + ']', ...str) },
-        info: (...str: any[]) => { console.info('[' + 'info '.cyan + ']', ...str) },
-        warn: (...str: any[]) => { console.warn('[' + 'warn '.yellow + ']', ...str) },
-        error: (...str: any[]) => { console.error('[' + 'error'.red + ']', ...str) }
+        debug: () => { },
+        info: () => { },
+        warn: () => { },
+        error: () => { }
     };
     private wwwroot?: string;
     private service?: string;
@@ -68,6 +76,7 @@ export class BaseClient {
     constructor(options: BaseClientOptions) {
         var options = options ?? {};
         Object.assign(this, options);
+        if (options.logger === true) this.logger = Logger;
 
         if (!options.wwwroot)
             this.logger.error("[init] wwwroot not defined");
