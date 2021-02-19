@@ -13,37 +13,28 @@
 
 "use strict";
 
-import request_promise from 'request-promise';
-import Promise from 'bluebird';
-import winston from 'winston';
+import request from 'request-promise-native';
 
-module.exports = {
-    /**
-     * Factory method promising an authenticated client instance.
-     *
-     * @method
-     * @returns {Promise}
-     */
-    init: function (options) {
-        options = options || {};
-        var c = new client(options);
+export function init(options) {
+    options = options || {};
+    var c = new client(options);
 
-        if (c.token !== null) {
-            // If the token was explicitly provided, there is nothing to wait for - return
-            // the promised client.
-            return Promise.resolve(c);
+    if (c.token !== null) {
+        // If the token was explicitly provided, there is nothing to wait for - return
+        // the promised client.
+        return Promise.resolve(c);
 
-        } else {
-            // Otherwise return the pending promise of the authenticated client.
-            if (!("username" in options)) {
-                return Promise.reject("coding error: no username (or token) provided");
-            }
-            if (!("password" in options)) {
-                return Promise.reject("coding error: no password (or token) provided");
-            }
-            return authenticate_client(c, options.username, options.password);
+    } else {
+        // Otherwise return the pending promise of the authenticated client.
+        if (!("username" in options)) {
+            return Promise.reject("coding error: no username (or token) provided");
         }
+        if (!("password" in options)) {
+            return Promise.reject("coding error: no password (or token) provided");
+        }
+        return authenticate_client(c, options.username, options.password);
     }
+}
 }
 
 
@@ -70,7 +61,17 @@ type Logger = {
     error: LoggerFunction;
 }
 
-class client {
+type BaseClientOptions = {
+    logger?: Logger
+    wwwroot?: string
+    service?: string
+    token?: string
+    username?: string
+    password?: string
+    strictSSL?: boolean
+}
+
+class BaseClient {
     logger: Logger = {
         // Set-up a dummy logger doing nothing.
         debug: () => { },
@@ -83,15 +84,7 @@ class client {
     token?: string;
     strictSSL = true;
 
-    constructor(options: {
-        logger?: Logger
-        wwwroot?: string
-        service?: string
-        token?: string
-        username?: string
-        password?: string
-        strictSSL?: boolean
-    }) {
+    constructor(options: BaseClientOptions) {
         var options = options ?? {};
         Object.assign(this, options);
 
@@ -159,7 +152,7 @@ class client {
 
         this.logger.debug("[call] calling web service function %s", wsfunction);
 
-        var req_options = {
+        var req_options: { uri: string } & request.RequestPromiseOptions = {
             form: undefined,
             uri: this.wwwroot + "/webservice/rest/server.php",
             json: true,
@@ -185,10 +178,10 @@ class client {
             delete req_options.qs;
         } else {
             this.logger.error("[call] unsupported request method");
-            return Promise.reject("unsupported request method");
+            throw 'unsupported request method';
         }
 
-        return request_promise(req_options);
+        return request(req_options);
     };
 
     /**
@@ -284,43 +277,36 @@ class client {
 }
 
 
-/**
- * @param {client} client
- * @param {string} username - The username to use to authenticate us.
- * @param {string} password - The password to use to authenticate us.
- * @returns {Promise}
- */
-function authenticate_client(client, username, password) {
-    return new Promise(function (resolve, reject) {
-        client.logger.debug("[init] requesting %s token from %s", client.service, client.wwwroot);
-        var options = {
-            uri: client.wwwroot + "/login/token.php",
-            method: "POST",
-            form: {
-                service: client.service,
-                username: username,
-                password: password
-            },
-            strictSSL: client.strictSSL,
-            json: true
+async function authenticate_client<C extends BaseClient>(client: C, username: string, password: string): Promise<C> {
+
+    client.logger.debug("[init] requesting %s token from %s", client.service, client.wwwroot);
+    var options = {
+        uri: client.wwwroot + "/login/token.php",
+        method: "POST",
+        form: {
+            service: client.service,
+            username: username,
+            password: password
+        },
+        strictSSL: client.strictSSL,
+        json: true
+    }
+
+    try {
+        var res = await request(options)
+        if (res.token) {
+            client.token = res.token;
+            client.logger.debug("[init] token obtained");
+            return client;
+        } else if ("error" in res) {
+            client.logger.error("[init] authentication failed: " + res.error);
+            throw new Error("authentication failed: " + res.error);
+        } else {
+            client.logger.error("[init] authentication failed: unexpected server response");
+            throw new Error("authentication failed: unexpected server response");
         }
 
-        request_promise(options)
-            .then(function (res) {
-                if ("token" in res) {
-                    client.token = res.token;
-                    client.logger.debug("[init] token obtained");
-                    resolve(client);
-                } else if ("error" in res) {
-                    client.logger.error("[init] authentication failed: " + res.error);
-                    reject(new Error("authentication failed: " + res.error));
-                } else {
-                    client.logger.error("[init] authentication failed: unexpected server response");
-                    reject(new Error("authentication failed: unexpected server response"));
-                }
-            })
-            .catch(function (err) {
-                reject(err);
-            });
-    });
-}
+    } catch (err) {
+        throw (err);
+    };
+};
