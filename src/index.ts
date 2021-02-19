@@ -45,17 +45,12 @@ class CoreModule extends BaseModule {
         return this.client.call({
             wsfunction: "core_course_check_updates",
             method: "POST",
-            args: {
+            args: [{
                 courseid: 3260,
-                tocheck: [{ contextlevel: 'CONTEXT_COURSE', id: 50, since: 1611042482 }]
+                tocheck: [{ contextlevel: 'CONTEXT_COURSE', id: 50, since: new Date().getTime() }]
                 //          19189
                 //          4041
-            }
-        }).then(function (response) {
-            let parsedRes = JSON.stringify(response, null, 4)
-            //parsedRes = JSON.parse(parsedRes)
-            console.log(parsedRes);
-            if (response.errorcode) throw (response.errorcode, response.message)
-        });
+            }]
+        })
     }
 }
