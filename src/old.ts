@@ -159,7 +159,8 @@ class client {
 
         this.logger.debug("[call] calling web service function %s", wsfunction);
 
-        var request_options = {
+        var req_options = {
+            form: undefined,
             uri: this.wwwroot + "/webservice/rest/server.php",
             json: true,
             qs: {
@@ -167,7 +168,9 @@ class client {
                 wstoken: this.token,
                 wsfunction: wsfunction,
                 moodlewsrestformat: 'json',
-                moodlewssettingraw: settings.raw
+                moodlewssettingraw: settings.raw,
+                moodlewssettingfileurl: settings.fileurl,
+                moodlewssettingfilter: settings.filter
             },
             qsStringifyOptions: {
                 arrayFormat: "indices"
@@ -176,35 +179,16 @@ class client {
             method: options.method
         }
 
-        if ("fileurl" in settings) {
-            // True by default. If true, returned file urls are converted to something like
-            // http://xxxx/webservice/pluginfile.php/yyyyyyyy.
-            // If false, the raw file url content from the DB is returned (e.g. @@PLUGINFILE@@).
-            // Requires moodle 2.3 and higher.
-            request_options.qs.moodlewssettingfileurl = settings.fileurl;
+
+        if (options.method === 'POST') {
+            req_options.form = req_options.qs;
+            delete req_options.qs;
+        } else {
+            this.logger.error("[call] unsupported request method");
+            return Promise.reject("unsupported request method");
         }
 
-        if ("filter" in settings) {
-            // False by default. If true, the function will apply filter during format_text().
-            // Requires moodle 2.3 and higher.
-            request_options.qs.moodlewssettingfilter = settings.filter;
-        }
-
-        if ("method" in options) {
-            if (options.method === "GET" || options.method === "get") {
-                // No problem, this is the default defined above.
-            } else if (options.method === "POST" || options.method === "post") {
-                // Provide the arguments as in URL-encoded forms.
-                request_options.method = "POST";
-                request_options.form = request_options.qs;
-                delete request_options.qs;
-            } else {
-                this.logger.error("[call] unsupported request method");
-                return Promise.reject("unsupported request method");
-            }
-        }
-
-        return request_promise(request_options);
+        return request_promise(req_options);
     };
 
     /**
