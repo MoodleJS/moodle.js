@@ -11,47 +11,24 @@
  * @license BSD-2-Clause
  */
 
-"use strict";
-
 import request from 'request-promise-native';
 
-export function init(options) {
-    options = options || {};
-    var c = new client(options);
+export function init(options: BaseClientOptions) {
+    var c = new BaseClient(options);
 
-    if (c.token !== null) {
-        // If the token was explicitly provided, there is nothing to wait for - return
-        // the promised client.
-        return Promise.resolve(c);
-
-    } else {
+    if (c.token) return c;
+    else {
         // Otherwise return the pending promise of the authenticated client.
-        if (!("username" in options)) {
-            return Promise.reject("coding error: no username (or token) provided");
-        }
-        if (!("password" in options)) {
-            return Promise.reject("coding error: no password (or token) provided");
-        }
-        return authenticate_client(c, options.username, options.password);
+        //@ts-ignore
+        if (!(options.username && options.password)) throw "coding error: no username/password (or token) provided";
+        //@ts-ignore
+        return authenticateClient(c, options.username, options.password);
     }
 }
-}
 
 
 
-/**
- * Represents a moodle API client.
- *
- * @constructor
- * @param {object} options - Client initialization options.
- * @param {string} options.wwwroot - The moodle hostname to connect to.
- * @param {winston.Logger} [options.logger] - The logger to use, defaults to a dummy non-logger.
- * @param {string} [options.service=moodle_mobile_app] - The web service to use.
- * @param {string} [options.token] - The access token to use.
- * @param {string} [options.username] - The username to use to authenticate us (if no token provided).
- * @param {string} [options.password] - The password to use to authenticate us (if no token provided).
- * @param {bool} [options.strictSSL] - If set to false, SSL certificates do not need to be valid.
- */
+
 
 type LoggerFunction = (() => any) | ((...data: any[]) => any);
 type Logger = {
@@ -61,15 +38,18 @@ type Logger = {
     error: LoggerFunction;
 }
 
-type BaseClientOptions = {
+type RawBaseClientOptions = {
     logger?: Logger
     wwwroot?: string
     service?: string
-    token?: string
-    username?: string
-    password?: string
     strictSSL?: boolean
 }
+type BaseClientOptions = (RawBaseClientOptions & {
+    token: string
+}) | (RawBaseClientOptions & {
+    username: string
+    password: string
+})
 
 class BaseClient {
     logger: Logger = {
@@ -84,6 +64,19 @@ class BaseClient {
     token?: string;
     strictSSL = true;
 
+    /**
+    * Represents a moodle API client.
+    *
+    * @constructor
+    * @param {object} options - Client initialization options.
+    * @param {string} options.wwwroot - The moodle hostname to connect to.
+    * @param {winston.Logger} [options.logger] - The logger to use, defaults to a dummy non-logger.
+    * @param {string} [options.service=moodle_mobile_app] - The web service to use.
+    * @param {string} [options.token] - The access token to use.
+    * @param {string} [options.username] - The username to use to authenticate us (if no token provided).
+    * @param {string} [options.password] - The password to use to authenticate us (if no token provided).
+    * @param {bool} [options.strictSSL] - If set to false, SSL certificates do not need to be valid.
+    */
     constructor(options: BaseClientOptions) {
         var options = options ?? {};
         Object.assign(this, options);
@@ -97,6 +90,7 @@ class BaseClient {
             this.service = "moodle_mobile_app";
         }
 
+        //@ts-ignore
         if (!options.token) this.logger.debug("[init] setting up explicit token");
         else this.logger.debug("[init] no explicit token provided - requires authentication");
 
@@ -277,7 +271,7 @@ class BaseClient {
 }
 
 
-async function authenticate_client<C extends BaseClient>(client: C, username: string, password: string): Promise<C> {
+async function authenticateClient<C extends BaseClient>(client: C, username: string, password: string): Promise<C> {
 
     client.logger.debug("[init] requesting %s token from %s", client.service, client.wwwroot);
     var options = {
