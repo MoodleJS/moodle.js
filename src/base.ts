@@ -13,6 +13,7 @@
 
 import request from 'request-promise-native';
 import 'colors';
+import { threadId } from 'node:worker_threads';
 
 
 
@@ -78,22 +79,21 @@ export class BaseClient {
         Object.assign(this, options);
         if (options.logger === true) this.logger = Logger;
 
-        if (!options.wwwroot)
-            this.logger.error("[init] wwwroot not defined");
+        if (!this.wwwroot)
+            this.logger.error('[init] wwwroot not defined');
 
 
-        if (!options.service) {
-            this.logger.debug("[init] using default service moodle_mobile_app");
-            this.service = "moodle_mobile_app";
+        if (!this.service) {
+            this.logger.debug('[init] Using default service %s', 'moodle_mobile_app'.bold);
+            this.service = 'moodle_mobile_app';
         }
 
         //@ts-ignore
-        if (!options.token) this.logger.debug("[init] setting up explicit token");
-        else this.logger.debug("[init] no explicit token provided - requires authentication");
+        if (this.token) this.logger.debug('[init] Setting up explicit token');
+        else this.logger.debug('[init] No explicit token provided - Requires' + 'authentication'.bold);
 
-
-        if (!options.strictSSL) {
-            this.logger.warn("ssl certificates not required to be valid");
+        if (!this.strictSSL) {
+            this.logger.warn('[init] ssl certificates not required to be valid');
             this.strictSSL = false;
         }
     }
@@ -130,15 +130,15 @@ export class BaseClient {
         var { wsfunction, args, settings } = options;
 
         if (!wsfunction) {
-            this.logger.error("missing function name to execute");
-            throw "missing function name to execute";
+            this.logger.error('[call] Missing function name to execute');
+            throw '[call] Missing function name to execute';
         }
 
-        this.logger.debug("[call] calling web service function %s", wsfunction);
+        this.logger.debug('[call] calling web service function %s', wsfunction.bold);
 
         var req_options: { uri: string } & request.RequestPromiseOptions = {
             form: undefined,
-            uri: this.wwwroot + "/webservice/rest/server.php",
+            uri: this.wwwroot + '/webservice/rest/server.php',
             json: true,
             qs: {
                 ...args,
@@ -150,7 +150,7 @@ export class BaseClient {
                 moodlewssettingfilter: settings.filter
             },
             qsStringifyOptions: {
-                arrayFormat: "indices"
+                arrayFormat: 'indices'
             },
             strictSSL: this.strictSSL,
             method: options.method
@@ -161,8 +161,8 @@ export class BaseClient {
             req_options.form = req_options.qs;
             delete req_options.qs;
         } else if (options.method !== 'GET') {
-            this.logger.error("unsupported request method");
-            throw 'unsupported request method';
+            this.logger.error('[call] Unsupported request method');
+            throw '[call] Unsupported request method';
         }
 
         return request(req_options).then((v) => {
@@ -183,11 +183,11 @@ export class BaseClient {
     };
 
     async authenticate(username: string, password: string): Promise<this> {
-        this.logger.debug("[init] requesting %s token from %s", this.service, this.wwwroot);
+        this.logger.debug('[init] Requesting %s token from %s', this.service, this.wwwroot);
 
         var options = {
-            uri: this.wwwroot + "/login/token.php",
-            method: "POST",
+            uri: this.wwwroot + '/login/token.php',
+            method: 'POST',
             form: {
                 service: this.service,
                 username: username,
@@ -201,19 +201,17 @@ export class BaseClient {
             var res = await request(options)
             if (res.token) {
                 this.token = res.token;
-                this.logger.debug("[init] token obtained");
+                this.logger.debug('[init] Token obtained');
                 return this;
-            } else if ("error" in res) {
-                this.logger.error("authentication failed: " + res.error);
-                throw new Error("authentication failed: " + res.error);
-            } else {
-                this.logger.error("authentication failed: unexpected server response");
-                throw new Error("authentication failed: unexpected server response");
             }
-
         } catch (err) {
-            console.log('R:' + err);
-            throw (err);
+            if (err) {
+                this.logger.error('[init] Authentication failed: ' + res.error);
+                throw new Error('[init] Authentication failed: ' + res.error);
+            }
         };
+
+        this.logger.error('[init] Authentication failed: unexpected server response');
+        throw new Error('[init] Authentication failed: unexpected server response');
     };
 }
