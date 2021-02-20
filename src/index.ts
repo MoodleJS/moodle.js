@@ -61,7 +61,7 @@ class CoreModule extends BaseModule {
             endpoint: 'core_course_check_updates',
             args: [{
                 courseid: 3260,
-                tocheck: [{ contextlevel: 'CONTEXT_COURSE', id: 50, since: new Date().getTime() }]
+                tocheck: [{ contextlevel: 'module', id: 50, since: new Date().getTime() }]
                 //          19189
                 //          4041
             }]
