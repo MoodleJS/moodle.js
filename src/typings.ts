@@ -8,7 +8,7 @@ export enum ContextID {
 }
 
 export declare namespace Core {
-    namespace core_block_get_course_blocks {
+    namespace block_get_course_blocks {
         interface args {
             courseid: string;
         }
@@ -36,7 +36,7 @@ export declare namespace Core {
 
     }
 
-    namespace core_webservice_get_site_info {
+    namespace webservice_get_site_info {
         interface response {
             sitename: string;
             username: string;

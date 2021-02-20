@@ -52,7 +52,7 @@ class BaseModule {
 }
 
 class CoreModule extends BaseModule {
-    public getInfo(): Promise<Core.core_webservice_get_site_info.response> {
+    public getInfo(): Promise<Core.webservice_get_site_info.response> {
         return this.call({ endpoint: 'core_webservice_get_site_info' })
     }
 
@@ -75,7 +75,7 @@ class CoreModule extends BaseModule {
         })
     }
 
-    public getCourseBlocks(args: Core.core_block_get_course_blocks.args): Promise<Core.core_block_get_course_blocks.response> {
+    public getCourseBlocks(args: Core.block_get_course_blocks.args): Promise<Core.block_get_course_blocks.response> {
         return this.call({
             endpoint: 'core_block_get_course_blocks',
             args
