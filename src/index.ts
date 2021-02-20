@@ -65,6 +65,12 @@ class CoreModule extends BaseModule {
         });
     }
 
+    public getAllCourses(): Promise<Core.course.get_courses_by_field.response> {
+        return this.call({
+            endpoint: 'core_course_get_courses_by_field',
+        })
+    }
+
     public getUpdateCourse() {
         return this.call({
             endpoint: 'core_course_check_updates',
