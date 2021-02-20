@@ -23,7 +23,7 @@ import 'colors';
 
 
 type LoggerFunction = (() => any) | ((...data: any[]) => any);
-type Logger = {
+export type Logger = {
     debug: LoggerFunction;
     info: LoggerFunction;
     warn: LoggerFunction;
@@ -52,10 +52,10 @@ export type BaseClientOptions = (RawBaseClientOptions & {
 
 //A default Logger implementation
 export var Logger = {
-    debug: (...str: any[]) => { console.debug(`[debug] `.bgGreen.black.bold + str[0], ...str.slice(1)) },
-    info: (...str: any[]) => { console.info(`[info ] `.bgCyan.black.bold + str[0], ...str.slice(1)) },
-    warn: (...str: any[]) => { console.warn(`[warn ] `.bgYellow.black.bold + str[0], ...str.slice(1)) },
-    error: (...str: any[]) => { console.error(`[error] `.bgRed.black.bold + str[0], ...str.slice(1)) }
+    debug: (...str: any[]) => { console.debug(`[debug]`.bgGreen.black.bold + ' ' + str[0], ...str.slice(1)) },
+    info: (...str: any[]) => { console.info(`[info ]`.bgCyan.black.bold + ' ' + str[0], ...str.slice(1)) },
+    warn: (...str: any[]) => { console.warn(`[warn ]`.bgYellow.black.bold + ' ' + str[0], ...str.slice(1)) },
+    error: (...str: any[]) => { console.error(`[error]`.bgRed.black.bold + ' ' + str[0], ...str.slice(1)) }
 }
 
 export class BaseClient {
@@ -119,7 +119,7 @@ export class BaseClient {
     }) {
         //Default
         options.args ??= {};
-        options.method ??= 'GET';
+        options.method ??= 'POST';
         //@ts-ignore
         options.method = options.method.toUpperCase();
         options.settings ??= {};
