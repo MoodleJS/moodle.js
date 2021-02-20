@@ -215,3 +215,26 @@ export class BaseClient {
         throw new Error('[init] Authentication failed: unexpected server response');
     };
 }
+
+export type CallOptions<Args> = {
+    endpoint: string,
+    args?: Args,
+    method?: 'GET' | 'POST',
+    settings?: any
+}
+
+export class BaseModule {
+    protected client: BaseClient;
+    constructor(client: BaseClient) {
+        this.client = client;
+    }
+
+    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+        return this.client.call({
+            wsfunction: opts.endpoint,
+            args: opts.args,
+            method: opts.method,
+            settings: opts.settings
+        })
+    }
+}

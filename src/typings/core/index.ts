@@ -2,7 +2,7 @@ import calendar_ from './calendar';
 import course_ from './course';
 import message_ from './message';
 
-import { BaseModule, CallOptions, Client } from '../..';
+import { BaseModule, CallOptions, BaseClient as Client } from '../../base';
 
 export declare namespace Core {
     export import calendar = calendar_;
