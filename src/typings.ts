@@ -8,33 +8,76 @@ export enum ContextID {
 }
 
 export declare namespace Core {
-    interface core_webservice_get_site_info {
-        sitename: string;
-        username: string;
-        firstname: string;
-        lastname: string;
-        fullname: string;
-        lang: string;
-        userid: number;
-        siteurl: string;
-        userpictureurl: string;
-        functions: {
-            name: string;
+    namespace core_webservice_get_site_info {
+        interface response {
+            sitename: string;
+            username: string;
+            firstname: string;
+            lastname: string;
+            fullname: string;
+            lang: string;
+            userid: number;
+            siteurl: string;
+            userpictureurl: string;
+            functions: {
+                name: string;
+                version: string;
+            }[];
+            downloadfiles: number;
+            uploadfiles: number;
+            release: string;
             version: string;
-        }[];
-        downloadfiles: number;
-        uploadfiles: number;
-        release: string;
-        version: string;
-        mobilecssurl: string;
-        advancedfeatures: {
+            mobilecssurl: string;
+            advancedfeatures: {
+                name: string;
+                value: number;
+            }[];
+            usercanmanageownfiles: boolean;
+            userquota: number;
+            usermaxuploadfilesize: number;
+            userhomepage: number;
+            siteid: number;
+        }
+    }
+
+    namespace core_course_get_contents {
+        interface response {
+            id: number;
             name: string;
-            value: number;
-        }[];
-        usercanmanageownfiles: boolean;
-        userquota: number;
-        usermaxuploadfilesize: number;
-        userhomepage: number;
-        siteid: number;
+            visible: number;
+            summary: string;
+            summaryformat: number;
+            section: number;
+            hiddenbynumsections: number;
+            modules: Module[];
+        }
+
+        interface Module {
+            id: number;
+            url: string;
+            name: string;
+            instance: number;
+            visible: number;
+            modicon: string;
+            modname: string;
+            modplural: string;
+            indent: number;
+            contents?: Content[];
+            description?: string;
+        }
+
+        interface Content {
+            type: 'file' | 'url';
+            filename: string;
+            filepath?: string;
+            filesize: number;
+            fileurl: string;
+            timecreated?: number;
+            timemodified?: number;
+            sortorder?: number;
+            userid?: number;
+            author?: string;
+            license?: string;
+        }
     }
 }

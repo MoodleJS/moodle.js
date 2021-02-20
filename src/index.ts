@@ -35,7 +35,7 @@ class BaseModule {
 }
 
 class CoreModule extends BaseModule {
-    getInfo(): Promise<Core.core_webservice_get_site_info> {
+    getInfo(): Promise<Core.core_webservice_get_site_info.response> {
         return this.client.call({
             wsfunction: "core_webservice_get_site_info",
         })
@@ -51,6 +51,16 @@ class CoreModule extends BaseModule {
                 //          19189
                 //          4041
             }]
+        })
+    }
+
+    getModules(courseid: string): Promise<Core.core_course_get_contents.response> {
+        return this.client.call({
+            wsfunction: "core_course_get_contents",
+            method: "POST",
+            args: {
+                courseid: courseid
+            }
         })
     }
 }
