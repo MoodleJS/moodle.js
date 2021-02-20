@@ -8,6 +8,34 @@ export enum ContextID {
 }
 
 export declare namespace Core {
+    namespace core_block_get_course_blocks {
+        interface args {
+            courseid: string;
+        }
+
+        type response = {
+            /* Block instance id. */
+            instanceid: number
+            /* Block name. */
+            name: string
+            /* Block region. */
+            region: string
+            /* Position id. */
+            positionid: number
+            /* Whether the block is collapsible. */
+            collapsible: number
+            /* whether the block is  dockabl. */
+            dockable: number
+            warnings?: {
+                item?: string
+                itemid?: number
+                warningcode: string
+                message: string
+            }[]
+        }[]
+
+    }
+
     namespace core_webservice_get_site_info {
         interface response {
             sitename: string;
@@ -41,7 +69,11 @@ export declare namespace Core {
     }
 
     namespace core_course_get_contents {
-        interface response {
+        interface args {
+            courseid: string;
+        }
+
+        type response = {
             id: number;
             name: string;
             visible: number;
@@ -50,7 +82,7 @@ export declare namespace Core {
             section: number;
             hiddenbynumsections: number;
             modules: Module[];
-        }
+        }[]
 
         interface Module {
             id: number;
