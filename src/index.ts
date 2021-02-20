@@ -5,6 +5,7 @@ export { Logger } from './base';
 export * as typings from './typings';
 
 
+
 type ClientOptions = BaseClientOptions;
 export class Client extends BaseClient {
     public core: CoreModule;
