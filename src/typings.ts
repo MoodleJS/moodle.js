@@ -182,13 +182,89 @@ export declare namespace Core {
         }
     }
 
-    namespace test4 {
+    namespace calendar_get_action_events_by_timesort {
         type args = {
-            courseid: string;
+            timesortfrom?: number;
+            timesortto?: number;
+            aftereventid?: number;
+            limittononsuspendedevents?: number;
         }
 
-        type response = {
-
+        type reponse = {
+            events: {
+                id: number,
+                name: string,
+                description: string,
+                descriptionformat: number,
+                categoryid: number,
+                groupid: number,
+                userid: number,
+                repeatid: number,
+                eventcount: number,
+                modulename: string,
+                instance: number,
+                eventtype: string,
+                timestart: number,
+                timeduration: number,
+                timesort: number,
+                visible: number,
+                timemodified: number,
+                icon: {
+                    key: string,
+                    component: string,
+                    alttext: string
+                },
+                category: {
+                    id: number,
+                    name: string,
+                    idnumber: string,
+                    description: string,
+                    parent: number,
+                    coursecount: number,
+                    visible: number,
+                    timemodified: number,
+                    depth: number,
+                    nestedname: string,
+                    url: string
+                },
+                course: {
+                    id: number,
+                    fullname: string,
+                    shortname: string,
+                    idnumber: string,
+                    summary: string,
+                    summaryformat: number,
+                    startdate: number,
+                    enddate: number,
+                    fullnamedisplay: string,
+                    viewurl: string
+                },
+                subscription: {
+                    displayeventsource: number,
+                    subscriptionname: string,
+                    subscriptionurl: string
+                },
+                canedit: number,
+                candelete: number,
+                deleteurl: string,
+                editurl: string,
+                viewurl: string,
+                formattedtime: string,
+                isactionevent: number,
+                iscourseevent: number,
+                iscategoryevent: number,
+                groupname: string,
+                url: string,
+                action: {
+                    name: string,
+                    url: string,
+                    itemcount: number,
+                    actionable: number,
+                    showitemcount: number
+                },
+            }[],
+            firstid: number,
+            lastid: number
         }
     }
 
