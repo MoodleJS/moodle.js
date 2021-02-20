@@ -92,8 +92,7 @@ class CoreModule extends BaseModule {
     }
 
 
-
-    getMessages(args: Core.message_get_messages.args): Promise<Core.message_get_messages.reponse> {
+    public getMessages(args: Core.message_get_messages.args): Promise<Core.message_get_messages.reponse> {
         return this.call({
             endpoint: 'core_message_get_messages ',
             method: 'POST',
