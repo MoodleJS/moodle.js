@@ -1,6 +1,9 @@
 import { BaseClient, BaseClientOptions } from './base';
 import { Core } from './typings';
 
+export { Logger } from './base';
+export * as typings from './typings';
+
 
 type ClientOptions = BaseClientOptions;
 export class Client extends BaseClient {
@@ -28,23 +31,34 @@ export class Client extends BaseClient {
 
 }
 class BaseModule {
-    public client: Client;
+    protected client: Client;
     constructor(client: Client) {
         this.client = client;
+    }
+
+    protected call<Response, Args = any>(opts: {
+        endpoint: string,
+        args?: Args,
+        method?: 'GET' | 'POST',
+        settings?: any
+    }): Promise<Response> {
+        return this.client.call({
+            wsfunction: opts.endpoint,
+            args: opts.args,
+            method: opts.method,
+            settings: opts.settings
+        })
     }
 }
 
 class CoreModule extends BaseModule {
     getInfo(): Promise<Core.core_webservice_get_site_info.response> {
-        return this.client.call({
-            wsfunction: "core_webservice_get_site_info",
-        })
+        return this.call({ endpoint: 'core_webservice_get_site_info' })
     }
 
     getUpdateCourse() {
-        return this.client.call({
-            wsfunction: "core_course_check_updates",
-            method: "POST",
+        return this.call({
+            endpoint: 'core_course_check_updates',
             args: [{
                 courseid: 3260,
                 tocheck: [{ contextlevel: 'CONTEXT_COURSE', id: 50, since: new Date().getTime() }]
