@@ -1,6 +1,7 @@
 import course_ from './course';
 import calendar_ from './calendar';
 import message_ from './message';
+import { BaseModule, CallOptions, Client } from '../..';
 
 export declare namespace Core {
     export import course = course_;
@@ -27,7 +28,7 @@ export declare namespace Core {
             onlypublic?: 0 | 1;
         }
 
-        type reponse = {
+        type response = {
             badges: {
                 id: number,
                 name: string,
@@ -166,5 +167,148 @@ export declare namespace Core {
             author?: string;
             license?: string;
         }
+    }
+}
+
+class CourseModule extends BaseModule {
+    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+        return super.call({
+            endpoint: 'core_course_' + opts.endpoint,
+            args: opts.args,
+            method: opts.method,
+            settings: opts.settings
+        })
+    }
+
+    public checkUpdates(args?: course_.check_updates.args): Promise<course_.check_updates.response> {
+        return this.call({
+            endpoint: 'check_updates',
+            args
+        });
+    }
+
+    public getCategories(args?: course_.get_categories.args): Promise<course_.get_categories.response> {
+        return this.call({
+            endpoint: 'get_categories',
+            args
+        });
+    }
+
+    public getContents(args?: course_.get_contents.args): Promise<course_.get_contents.response> {
+        return this.call({
+            endpoint: 'get_contents',
+            args
+        });
+    }
+
+    public getCourseModule(args?: course_.get_course_module.args): Promise<course_.get_course_module.response> {
+        return this.call({
+            endpoint: 'get_course_module',
+            args
+        });
+    }
+
+    public getCourses(args?: course_.get_courses.args): Promise<course_.get_courses.response> {
+        return this.call({
+            endpoint: 'get_courses',
+            args
+        });
+    }
+
+    public getCoursesByField(args?: course_.get_courses_by_field.args): Promise<course_.get_courses_by_field.response> {
+        return this.call({
+            endpoint: 'get_courses_by_field',
+            args
+        });
+    }
+
+    public getModule(args?: course_.get_module.args): Promise<course_.get_module.response> {
+        return this.call({
+            endpoint: 'get_module',
+            args
+        });
+    }
+
+    public getUpdatesSince(args?: course_.get_updates_since.args): Promise<course_.get_updates_since.response> {
+        return this.call({
+            endpoint: 'get_updates_since',
+            args
+        });
+    }
+
+    public searchCourses(args?: course_.search_courses.args): Promise<course_.search_courses.response> {
+        return this.call({
+            endpoint: 'search_courses',
+            args
+        });
+    }
+
+    public viewCourse(args?: course_.view_course.args): Promise<course_.view_course.response> {
+        return this.call({
+            endpoint: 'view_course',
+            args
+        });
+    }
+}
+
+export class CoreModule extends BaseModule {
+    public course: CourseModule;
+
+    constructor(client: Client) {
+        super(client);
+        this.course = new CourseModule(client);
+    }
+
+    public getInfo(): Promise<Core.webservice_get_site_info.response> {
+        return this.call({ endpoint: 'core_webservice_get_site_info' })
+    }
+
+    public getBadgesAndWarnings(args?: Core.badges_get_user_badges.args): Promise<Core.badges_get_user_badges.response> {
+        return this.call({
+            endpoint: 'core_badges_get_user_badges ',
+            method: 'GET',
+            args
+        });
+    }
+
+    public getAllCourses(): Promise<Core.course.get_courses_by_field.response> {
+        return this.call({
+            endpoint: 'core_course_get_courses_by_field',
+        })
+    }
+
+    public getUpdateCourse() {
+        return this.call({
+            endpoint: 'core_course_check_updates',
+            args: [{
+                courseid: 3260,
+                tocheck: [{ contextlevel: 'module', id: 50, since: new Date().getTime() }]
+                //          19189
+                //          4041
+            }]
+        })
+    }
+
+    public getModules(args: Core.core_course_get_contents.args): Promise<Core.core_course_get_contents.response> {
+        return this.call({
+            endpoint: 'core_course_get_contents',
+            args
+        })
+    }
+
+    public getCourseBlocks(args: Core.block_get_course_blocks.args): Promise<Core.block_get_course_blocks.response> {
+        return this.call({
+            endpoint: 'core_block_get_course_blocks',
+            args
+        })
+    }
+
+
+    public getMessages(args: Core.message.get_messages.args): Promise<Core.message.get_messages.response> {
+        return this.call({
+            endpoint: 'core_message_get_messages ',
+            method: 'POST',
+            args
+        });
     }
 }

@@ -16,7 +16,7 @@ declare namespace calendar {
             }
         }
 
-        type reponse = {
+        type response = {
             events: {
                 id: number,
                 name: string,
@@ -67,7 +67,7 @@ declare namespace calendar {
             limitnum?: number;
         }
 
-        type reponse = {
+        type response = {
             events: {
                 id: number,
                 name: string,
@@ -153,7 +153,7 @@ declare namespace calendar {
             limittononsuspendedevents?: number;
         }
 
-        type reponse = {
+        type response = {
             events: {
                 id: number,
                 name: string,

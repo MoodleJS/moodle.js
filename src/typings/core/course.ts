@@ -25,7 +25,7 @@ declare namespace course {
             addsubcategories?: 0 | 1
         }
 
-        type reponse = {
+        type response = {
             id: number,
             name: string,
             idnumber: string,
@@ -52,7 +52,7 @@ declare namespace course {
             }[]
         }
 
-        type reponse = {
+        type response = {
             id: number,
             name: string,
             visible: number,
@@ -103,7 +103,7 @@ declare namespace course {
             cmid: number
         }
 
-        type reponse = {
+        type response = {
             cm: {
                 id: number,
                 course: number,
@@ -158,7 +158,7 @@ declare namespace course {
             }[]
         }
 
-        type reponse = {
+        type response = {
             id: number,
             shortname: string,
             categoryid: number,
@@ -205,7 +205,7 @@ declare namespace course {
             limittoenrolled?: 0 | 1;
         }
 
-        type reponse = {
+        type response = {
             total: number,
             courses: {
                 id: number,
@@ -270,7 +270,7 @@ declare namespace course {
             filter?: string[]
         }
 
-        type reponse = {
+        type response = {
             instances: {
                 contextlevel: string,
                 id: number,
@@ -296,7 +296,7 @@ declare namespace course {
             sectionnumber?: number
         }
 
-        type reponse = {
+        type response = {
             status: number,
             warnings: {
                 item: string,
@@ -403,7 +403,7 @@ declare namespace course {
             filter?: string[];
         }
 
-        type reponse = {
+        type response = {
             instances: {
                 contextlevel: string,
                 id: number,

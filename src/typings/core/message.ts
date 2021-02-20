@@ -7,7 +7,7 @@ declare namespace message {
                 userid?: number
             }
 
-            type reponse = {
+            type response = {
 
             }
         }
@@ -19,7 +19,7 @@ declare namespace message {
                 userid?: number
             }
 
-            type reponse = {
+            type response = {
 
             }
         }
@@ -31,7 +31,7 @@ declare namespace message {
                 userid?: number
             }
 
-            type reponse = {
+            type response = {
 
             }
         }
@@ -41,7 +41,7 @@ declare namespace message {
 
             }
 
-            type reponse = {
+            type response = {
                 online: {
                     id: number,
                     fullname: string,
@@ -73,7 +73,7 @@ declare namespace message {
                 userid?: number
             }
 
-            type reponse = {
+            type response = {
 
             }
         }
@@ -85,7 +85,7 @@ declare namespace message {
                 onlymycourses: 0 | 1;
             }
 
-            type reponse = {
+            type response = {
                 id: number,
                 fullname: string,
                 profileimageurl: string,
@@ -107,7 +107,7 @@ declare namespace message {
             limitnum?: number;
         }
 
-        type reponse = {
+        type response = {
             messages: {
                 id: number,
                 useridfrom: number,
@@ -141,7 +141,7 @@ declare namespace message {
             otheruserid: number;
         }
 
-        type reponse = {
+        type response = {
             status: number,
             warnings: {
                 item: string,
@@ -160,7 +160,7 @@ declare namespace message {
             read?: 0 | 1;
         }
 
-        type reponse = {
+        type response = {
             status: number,
             warnings: {
                 item: string,
@@ -176,7 +176,7 @@ declare namespace message {
             userid: number
         }
 
-        type reponse = {
+        type response = {
             users: {
                 id: number,
                 fullname: string,
@@ -202,7 +202,7 @@ declare namespace message {
             }
         }
 
-        type reponse = {
+        type response = {
             msgid: number,
             clientmsgid: string,
             errormessage: string,
