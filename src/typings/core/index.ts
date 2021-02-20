@@ -1,11 +1,12 @@
-import course_ from './course';
 import calendar_ from './calendar';
+import course_ from './course';
 import message_ from './message';
+
 import { BaseModule, CallOptions, Client } from '../..';
 
 export declare namespace Core {
-    export import course = course_;
     export import calendar = calendar_;
+    export import course = course_;
     export import message = message_;
 
     export enum ContextID {
@@ -170,6 +171,45 @@ export declare namespace Core {
     }
 }
 
+class CalendarModule extends BaseModule {
+    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+        return super.call({
+            endpoint: 'core_calendar_' + opts.endpoint,
+            args: opts.args,
+            method: opts.method,
+            settings: opts.settings
+        })
+    }
+
+    public createCalendarEvents(args?: calendar_.create_calendar_events.args): Promise<calendar_.create_calendar_events.response> {
+        return this.call({
+            endpoint: 'create_calendar_events',
+            args
+        });
+    }
+
+    public deleteCalendarEvents(args?: calendar_.delete_calendar_events.args): Promise<calendar_.delete_calendar_events.response> {
+        return this.call({
+            endpoint: 'delete_calendar_events',
+            args
+        });
+    }
+
+    public getActionEventsByCourse(args?: calendar_.get_action_events_by_course.args): Promise<calendar_.get_action_events_by_course.response> {
+        return this.call({
+            endpoint: 'get_action_events_by_course',
+            args
+        });
+    }
+
+    public getActionEventsByTimesort(args?: calendar_.get_action_events_by_timesort.args): Promise<calendar_.get_action_events_by_timesort.response> {
+        return this.call({
+            endpoint: 'get_action_events_by_timesort',
+            args
+        });
+    }
+}
+
 class CourseModule extends BaseModule {
     protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
         return super.call({
@@ -251,12 +291,121 @@ class CourseModule extends BaseModule {
     }
 }
 
+class ContactModule extends BaseModule {
+    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+        return super.call({
+            endpoint: 'core_message_' + opts.endpoint,
+            args: opts.args,
+            method: opts.method,
+            settings: opts.settings
+        })
+    }
+
+    public blockContacts(args?: message_.contacts.block_contacts.args): Promise<message_.contacts.block_contacts.response> {
+        return this.call({
+            endpoint: 'block_contacts',
+            args
+        });
+    }
+
+    public createContacts(args?: message_.contacts.create_contacts.args): Promise<message_.contacts.create_contacts.response> {
+        return this.call({
+            endpoint: 'create_contacts',
+            args
+        });
+    }
+
+    public deleteContacts(args?: message_.contacts.delete_contacts.args): Promise<message_.contacts.delete_contacts.response> {
+        return this.call({
+            endpoint: 'delete_contacts',
+            args
+        });
+    }
+
+    public getContacts(args?: message_.contacts.get_contacts.args): Promise<message_.contacts.get_contacts.response> {
+        return this.call({
+            endpoint: 'get_contacts',
+            args
+        });
+    }
+
+    public unblockContacts(args?: message_.contacts.unblock_contacts.args): Promise<message_.contacts.unblock_contacts.response> {
+        return this.call({
+            endpoint: 'unblock_contacts',
+            args
+        });
+    }
+
+    public searchContacts(args?: message_.contacts.search_contacts.args): Promise<message_.contacts.search_contacts.response> {
+        return this.call({
+            endpoint: 'search_contacts',
+            args
+        });
+    }
+}
+class MessageModule extends BaseModule {
+    public contacts: ContactModule;
+
+    constructor(client: Client) {
+        super(client);
+        this.contacts = new ContactModule(client);
+    }
+
+    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+        return super.call({
+            endpoint: 'core_message_' + opts.endpoint,
+            args: opts.args,
+            method: opts.method,
+            settings: opts.settings
+        })
+    }
+
+    public getMessages(args?: message_.get_messages.args): Promise<message_.get_messages.response> {
+        return this.call({
+            endpoint: 'get_messages',
+            args
+        });
+    }
+
+    public deleteConversation(args?: message_.delete_conversation.args): Promise<message_.delete_conversation.response> {
+        return this.call({
+            endpoint: 'delete_conversation',
+            args
+        });
+    }
+
+    public deleteMessage(args?: message_.delete_message.args): Promise<message_.delete_message.response> {
+        return this.call({
+            endpoint: 'delete_message',
+            args
+        });
+    }
+
+    public getBlockedUsers(args?: message_.get_blocked_users.args): Promise<message_.get_blocked_users.response> {
+        return this.call({
+            endpoint: 'get_blocked_users',
+            args
+        });
+    }
+
+    public sendInstantMessages(args?: message_.send_instant_messages.args): Promise<message_.send_instant_messages.response> {
+        return this.call({
+            endpoint: 'send_instant_messages',
+            args
+        });
+    }
+}
+
 export class CoreModule extends BaseModule {
     public course: CourseModule;
+    public calendar: CalendarModule;
+    public message: MessageModule;
 
     constructor(client: Client) {
         super(client);
         this.course = new CourseModule(client);
+        this.calendar = new CalendarModule(client);
+        this.message = new MessageModule(client);
     }
 
     public getInfo(): Promise<Core.webservice_get_site_info.response> {
