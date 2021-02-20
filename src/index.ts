@@ -63,4 +63,12 @@ class CoreModule extends BaseModule {
             }
         })
     }
+
+    getCourseBlocks(args: Core.core_block_get_course_blocks.args): Promise<Core.core_block_get_course_blocks.response> {
+        return this.client.call({
+            wsfunction: "core_block_get_course_blocks",
+            method: "POST",
+            args
+        })
+    }
 }

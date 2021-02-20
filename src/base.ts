@@ -52,10 +52,10 @@ export type BaseClientOptions = (RawBaseClientOptions & {
 
 //A default Logger implementation
 export var Logger = {
-    debug: (...str: any[]) => { console.debug('[' + 'debug'.green + '] ' + str[0], ...str.slice(1)) },
-    info: (...str: any[]) => { console.info('[' + 'info '.cyan + '] ' + str[0], ...str.slice(1)) },
-    warn: (...str: any[]) => { console.warn('[' + 'warn '.yellow + '] ' + str[0], ...str.slice(1)) },
-    error: (...str: any[]) => { console.error('[' + 'error'.red + '] ' + str[0], ...str.slice(1)) }
+    debug: (...str: any[]) => { console.debug(`[debug] `.bgGreen.black.bold + str[0], ...str.slice(1)) },
+    info: (...str: any[]) => { console.info(`[info ] `.bgCyan.black.bold + str[0], ...str.slice(1)) },
+    warn: (...str: any[]) => { console.warn(`[warn ] `.bgYellow.black.bold + str[0], ...str.slice(1)) },
+    error: (...str: any[]) => { console.error(`[error] `.bgRed.black.bold + str[0], ...str.slice(1)) }
 }
 
 export class BaseClient {
@@ -165,7 +165,21 @@ export class BaseClient {
             throw 'unsupported request method';
         }
 
-        return request(req_options);
+        return request(req_options).then((v) => {
+            if (v.exception) {
+                var err = v as {
+                    exception: string
+                    errorcode: string
+                    message: string
+                };
+                this.logger.error('Code:     '.bold, err.errorcode);
+                this.logger.error('Exception:'.bold, err.exception);
+                this.logger.error('Message:  '.bold, err.message);
+                throw v;
+            }
+
+            return v;
+        });
     };
 
     async authenticate(username: string, password: string): Promise<this> {
