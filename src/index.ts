@@ -52,11 +52,11 @@ class BaseModule {
 }
 
 class CoreModule extends BaseModule {
-    getInfo(): Promise<Core.core_webservice_get_site_info.response> {
+    public getInfo(): Promise<Core.core_webservice_get_site_info.response> {
         return this.call({ endpoint: 'core_webservice_get_site_info' })
     }
 
-    getUpdateCourse() {
+    public getUpdateCourse() {
         return this.call({
             endpoint: 'core_course_check_updates',
             args: [{
@@ -68,20 +68,16 @@ class CoreModule extends BaseModule {
         })
     }
 
-    getModules(courseid: string): Promise<Core.core_course_get_contents.response> {
-        return this.client.call({
-            wsfunction: "core_course_get_contents",
-            method: "POST",
-            args: {
-                courseid: courseid
-            }
+    public getModules(args: Core.core_course_get_contents.args): Promise<Core.core_course_get_contents.response> {
+        return this.call({
+            endpoint: 'core_course_get_contents',
+            args
         })
     }
 
-    getCourseBlocks(args: Core.core_block_get_course_blocks.args): Promise<Core.core_block_get_course_blocks.response> {
-        return this.client.call({
-            wsfunction: "core_block_get_course_blocks",
-            method: "POST",
+    public getCourseBlocks(args: Core.core_block_get_course_blocks.args): Promise<Core.core_block_get_course_blocks.response> {
+        return this.call({
+            endpoint: 'core_block_get_course_blocks',
             args
         })
     }
