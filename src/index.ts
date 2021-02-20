@@ -23,7 +23,7 @@ export class Client extends BaseClient {
         else {
             // Otherwise return the pending promise of the authenticated client.
             //@ts-ignore
-            if (!(options.username && options.password)) throw "coding error: no username/password (or token) provided";
+            if (!(options.username && options.password)) throw 'coding error: no username/password (or token) provided';
             //@ts-ignore
             return (await client.authenticate(options.username, options.password));
         }
@@ -57,6 +57,14 @@ class CoreModule extends BaseModule {
         return this.call({ endpoint: 'core_webservice_get_site_info' })
     }
 
+    public getBadgesAndWarnings(args?: Core.badges_get_user_badges.args): Promise<Core.badges_get_user_badges.reponse> {
+        return this.call({
+            endpoint: 'core_badges_get_user_badges ',
+            method: 'GET',
+            args
+        });
+    }
+
     public getUpdateCourse() {
         return this.call({
             endpoint: 'core_course_check_updates',
@@ -81,5 +89,15 @@ class CoreModule extends BaseModule {
             endpoint: 'core_block_get_course_blocks',
             args
         })
+    }
+
+
+
+    getMessages(args: Core.message_get_messages.args): Promise<Core.message_get_messages.reponse> {
+        return this.call({
+            endpoint: 'core_message_get_messages ',
+            method: 'POST',
+            args
+        });
     }
 }

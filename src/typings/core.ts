@@ -8,6 +8,53 @@ export enum ContextID {
 }
 
 export declare namespace Core {
+    namespace badges_get_user_badges {
+        type args = {
+            userid?: number;
+            courseid?: number;
+            page?: number;
+            perpage?: number;
+            search?: string;
+            onlypublic?: 0 | 1;
+        }
+
+        type reponse = {
+            badges: {
+                id: number,
+                name: string,
+                description: string,
+                badgeurl: string,
+                timecreated: number,
+                timemodified: number,
+                usercreated: number,
+                usermodified: number,
+                issuername: string,
+                issuerurl: string,
+                issuercontact: string,
+                expiredate: number,
+                expireperiod: number,
+                type: number,
+                courseid: number,
+                message: string,
+                messagesubject: string,
+                attachment: number,
+                status: number,
+                issuedid: number,
+                uniquehash: string,
+                dateissued: number,
+                dateexpire: number,
+                visible: number,
+            }[],
+            warnings: {
+                item: string,
+                itemid: number,
+                warningcode: string,
+                message: string,
+            }[]
+        }
+    }
+
+
     namespace block_get_course_blocks {
         type args = {
             courseid: string;
@@ -268,13 +315,44 @@ export declare namespace Core {
         }
     }
 
-    namespace test5 {
+    namespace message_get_messages {
         type args = {
-            courseid: string;
+            useridto: string;
+            useridfrom: string;
+            type?: 'notifications' | 'conversations' | 'both';
+            /** true for getting read messages, false for unread */
+            read?: 0 | 1;
+            /** true for ordering by newest first, false for oldest first */
+            newestfirst?: 0 | 1;
+            limitfrom?: number;
+            limitnum?: number;
         }
 
-        type response = {
-
+        type reponse = {
+            messages: {
+                id: number,
+                useridfrom: number,
+                useridto: number,
+                subject: string,
+                text: string,
+                fullmessage: string,
+                fullmessageformat: number,
+                fullmessagehtml: string,
+                smallmessage: string,
+                notification: number,
+                contexturl: string,
+                contexturlname: string,
+                timecreated: number,
+                timeread: number,
+                usertofullname: string,
+                userfromfullname: string,
+            }[],
+            warnings: {
+                item: string,
+                itemid: number,
+                warningcode: string,
+                message: string,
+            }[]
         }
     }
 
