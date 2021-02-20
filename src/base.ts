@@ -52,10 +52,10 @@ export type BaseClientOptions = (RawBaseClientOptions & {
 
 //A default Logger implementation
 export var Logger = {
-    debug: (...str: any[]) => { console.debug('[' + 'debug'.green + ']', ...str) },
-    info: (...str: any[]) => { console.info('[' + 'info '.cyan + ']', ...str) },
-    warn: (...str: any[]) => { console.warn('[' + 'warn '.yellow + ']', ...str) },
-    error: (...str: any[]) => { console.error('[' + 'error'.red + ']', ...str) }
+    debug: (...str: any[]) => { console.debug('[' + 'debug'.green + '] ' + str[0], ...str.slice(1)) },
+    info: (...str: any[]) => { console.info('[' + 'info '.cyan + '] ' + str[0], ...str.slice(1)) },
+    warn: (...str: any[]) => { console.warn('[' + 'warn '.yellow + '] ' + str[0], ...str.slice(1)) },
+    error: (...str: any[]) => { console.error('[' + 'error'.red + '] ' + str[0], ...str.slice(1)) }
 }
 
 export class BaseClient {
