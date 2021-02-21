@@ -13,8 +13,6 @@
 
 import request from 'request-promise-native';
 import 'colors';
-import { threadId } from 'node:worker_threads';
-
 
 
 
