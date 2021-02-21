@@ -67,10 +67,10 @@ export class BaseClient {
         warn: () => { },
         error: () => { }
     };
-    private wwwroot?: string;
-    private service?: string;
+    protected wwwroot?: string;
+    protected service?: string;
     public token?: string;
-    private strictSSL = true;
+    protected strictSSL = true;
 
 
 
@@ -93,7 +93,7 @@ export class BaseClient {
         else this.logger.debug('[init] No explicit token provided - Requires' + 'authentication'.bold);
 
         if (!this.strictSSL) {
-            this.logger.warn('[init] ssl certificates not required to be valid');
+            this.logger.warn('[init] SSL certificates not required to be valid');
             this.strictSSL = false;
         }
     }
@@ -134,7 +134,7 @@ export class BaseClient {
             throw '[call] Missing function name to execute';
         }
 
-        this.logger.debug('[call] calling web service function %s', wsfunction.bold);
+        this.logger.debug('[call] Calling web service function %s', wsfunction.bold);
 
         var req_options: { uri: string } & request.RequestPromiseOptions = {
             form: undefined,
@@ -211,8 +211,8 @@ export class BaseClient {
             }
         };
 
-        this.logger.error('[init] Authentication failed: unexpected server response');
-        throw new Error('[init] Authentication failed: unexpected server response');
+        this.logger.error('[init] Authentication failed: Unexpected server response');
+        throw new Error('[init] Authentication failed: Unexpected server response');
     };
 }
 

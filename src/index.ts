@@ -1,6 +1,5 @@
 import { BaseClient, BaseClientOptions, CallOptions } from './base';
 
-
 export { Logger, BaseClient } from './base';
 export * as typings from './typings';
 
@@ -32,7 +31,6 @@ export class Client extends BaseClient {
 
         if (client.token) return client;
         else {
-            // Otherwise return the pending promise of the authenticated client.
             //@ts-ignore
             if (!(options.username && options.password)) throw 'coding error: no username/password (or token) provided';
             //@ts-ignore

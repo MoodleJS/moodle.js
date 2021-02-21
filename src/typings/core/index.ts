@@ -398,10 +398,10 @@ export class CoreModule extends BaseModule {
         this.course = new CourseModule();
         this.calendar = new CalendarModule();
         this.message = new MessageModule();
+    }
 
-        this.course.call = (...args) => this.call(...args);
-        this.calendar.call = (...args) => this.call(...args);
-        this.message.call = (...args) => this.call(...args);
+    public call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+        return {} as any;
     }
 
     public getInfo(): Promise<Core.webservice_get_site_info.response> {
