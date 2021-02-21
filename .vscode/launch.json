@@ -5,13 +5,43 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-node",
+            "name": "Run testing/index",
+            "program": "${workspaceFolder}/testing/index.js",
             "request": "launch",
-            "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\index.js"
-        }
+            "type": "pwa-node"
+        },
+        {
+            "command": "",
+            "name": "==== NPM ====",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "npm publish",
+            "name": "Publish",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "npm pack",
+            "name": "Pack Files",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "npm clean",
+            "name": "Clean Files",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "npm test",
+            "name": "NPM Test",
+            "request": "launch",
+            "type": "node-terminal"
+        },
     ]
 }
