@@ -4,10 +4,11 @@ testing
 node_modules
 
 # Configs
+.vscode
 package-lock.json
 tsconfig.json
 
 # Development
-.map
-js.map
-d.ts.map
+.gitattributes
+*.map
+*.tgz

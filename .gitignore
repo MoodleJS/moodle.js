@@ -1,4 +1,9 @@
+# Local
 node_modules
 dist
+.vscode
+
+# Dev Only
 package-lock.json
 testing
+*.tgz

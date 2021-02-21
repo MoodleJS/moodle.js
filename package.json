@@ -8,7 +8,8 @@
         "madge": "madge --circular ./dist",
         "clean": "rmdir dist /s /q && tsc",
         "test": "npm run madge",
-        "prepublish": "npm run clean && npm test"
+        "prepare": "npm run clean",
+        "prepublishOnly": "npm run clean && npm test"
     },
     "keywords": [],
     "author": "",
@@ -22,5 +23,8 @@
         "@types/node": "^14.14.22",
         "@types/request": "^2.48.5",
         "@types/request-promise-native": "^1.0.17"
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }
