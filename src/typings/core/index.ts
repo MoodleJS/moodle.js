@@ -172,7 +172,7 @@ export declare namespace Core {
 }
 
 class CalendarModule extends BaseModule {
-    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+    public call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
         return super.call({
             endpoint: 'core_calendar_' + opts.endpoint,
             args: opts.args,
@@ -211,7 +211,7 @@ class CalendarModule extends BaseModule {
 }
 
 class CourseModule extends BaseModule {
-    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+    public call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
         return super.call({
             endpoint: 'core_course_' + opts.endpoint,
             args: opts.args,
@@ -292,15 +292,6 @@ class CourseModule extends BaseModule {
 }
 
 class ContactModule extends BaseModule {
-    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
-        return super.call({
-            endpoint: 'core_message_' + opts.endpoint,
-            args: opts.args,
-            method: opts.method,
-            settings: opts.settings
-        })
-    }
-
     public blockContacts(args?: message_.contacts.block_contacts.args): Promise<message_.contacts.block_contacts.response> {
         return this.call({
             endpoint: 'block_contacts',
@@ -346,12 +337,12 @@ class ContactModule extends BaseModule {
 class MessageModule extends BaseModule {
     public contacts: ContactModule;
 
-    constructor(client: Client) {
-        super(client);
-        this.contacts = new ContactModule(client);
+    constructor() {
+        super();
+        this.contacts = new ContactModule();
     }
 
-    protected call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
+    public call<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
         return super.call({
             endpoint: 'core_message_' + opts.endpoint,
             args: opts.args,
@@ -401,11 +392,16 @@ export class CoreModule extends BaseModule {
     public calendar: CalendarModule;
     public message: MessageModule;
 
-    constructor(client: Client) {
-        super(client);
-        this.course = new CourseModule(client);
-        this.calendar = new CalendarModule(client);
-        this.message = new MessageModule(client);
+    constructor() {
+        super();
+
+        this.course = new CourseModule();
+        this.calendar = new CalendarModule();
+        this.message = new MessageModule();
+
+        this.course.call = (...args) => this.call(...args);
+        this.calendar.call = (...args) => this.call(...args);
+        this.message.call = (...args) => this.call(...args);
     }
 
     public getInfo(): Promise<Core.webservice_get_site_info.response> {
