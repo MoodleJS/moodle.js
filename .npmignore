@@ -1,5 +1,13 @@
+# Folders
 src
+testing
+node_modules
+
+# Configs
 package-lock.json
 tsconfig.json
-node_modules
+
+# Development
 .map
+js.map
+d.ts.map

@@ -5,7 +5,10 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "madge": "madge --circular ./dist",
+        "clean": "rmdir dist /s /q && tsc",
+        "test": "npm run madge",
+        "prepublish": "npm run clean && npm test"
     },
     "keywords": [],
     "author": "",
