@@ -2,6 +2,7 @@
 node_modules
 dist
 .vscode
+.VSCodeCounter
 
 # Dev Only
 package-lock.json

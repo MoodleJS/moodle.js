@@ -5,6 +5,7 @@ node_modules
 
 # Configs
 .vscode
+.VSCodeCounter
 package-lock.json
 tsconfig.json
 
