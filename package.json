@@ -1,6 +1,6 @@
 {
     "name": "akora-moodle",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "This is a moodle Client for the MoodleAPI that was inspired by the minimalistic moodle-client",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -17,7 +17,8 @@
         "typed",
         "typings"
     ],
-    "contributors": [{
+    "contributors": [
+        {
             "name": "A-K-O-R-A",
             "url": "https://github.com/A-K-O-R-A"
         },
