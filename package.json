@@ -17,8 +17,7 @@
         "typed",
         "typings"
     ],
-    "contributors": [
-        {
+    "contributors": [{
             "name": "A-K-O-R-A",
             "url": "https://github.com/A-K-O-R-A"
         },
@@ -34,7 +33,7 @@
     "publishConfig": {
         "access": "public"
     },
-    "license": "./LICENSE.md",
+    "license": "MIT",
     "dependencies": {
         "colors": "^1.4.0",
         "request": "^2.88.2",
