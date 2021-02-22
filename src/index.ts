@@ -53,7 +53,7 @@ export class Client extends BaseClient {
 
 
     static async init(options: ClientOptions) {
-        var client = new Client(options);
+        var client = new this(options);
 
         if (client.token) return client;
         else {
@@ -66,48 +66,40 @@ export class Client extends BaseClient {
 }
 
 
-function applyMixins(derivedCtor: any, constructors: any[]) {
-    constructors.forEach((baseCtor) => {
-        Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
-            Object.defineProperty(
-                derivedCtor.prototype,
-                name,
-                Object.getOwnPropertyDescriptor(baseCtor.prototype, name) ||
-                Object.create(null)
-            );
-        });
-    });
-}
-
-
 interface ConsoleClientEvents {
     message: [Core.message.get_messages.message];
 }
 
-export class ConsoleClient {
+
+export class ConsoleClient extends EventEmitter {
     //@ts-ignore
-    public userid: string;
+    public userid: number;
     //@ts-ignore
     public chat: Core.message.get_messages.message[];
     //@ts-ignore
     public user: Core.webservice_get_site_info.response;
+    public client: Client;
 
-    //@ts-ignore
-    static async init(options: ClientOptions): Promise<ConsoleClient> { return this }
+    constructor(client: Client) {
+        super();
+        this.chat = [];
+        this.client = client;
+    }
 
     public async initConsole(options: {
         /** Timeout in ms between message checks */
         timeout: number
     }) {
         const { timeout } = options ?? {};
-        var info = await this.core.getInfo();
-        this.userid = info.userid + '';
+        var info = await this.client.core.getInfo();
+        this.userid = info.userid;
         this.user = info;
 
         setInterval(async () => {
-            var chat = await this.core.getMessages({
-                useridfrom: this.userid,
-                useridto: this.userid,
+
+            var chat = await this.client.core.getMessages({
+                useridfrom: this.userid + '',
+                useridto: this.userid + '',
                 limitnum: 2,
                 newestfirst: 1
             });
@@ -121,14 +113,22 @@ export class ConsoleClient {
         }, timeout ?? (1000 * 10))
     }
 
-    async send(...messages: Core.message.send_instant_messages.message[]) {
-        return this.core.message.sendInstantMessages({
-            messages: messages
+    async send(...messages: {
+        text: string;
+        textformat: 0 | 1 | 2 | 4;
+        clientmsgid?: string;
+    }[]) {
+        var arr = messages as Core.message.send_instant_messages.message[];
+        for (const i in arr)
+            arr[i].touserid = this.userid;
+
+        return this.client.core.message.sendInstantMessages({
+            messages: arr
         })
     }
 }
 
-export interface ConsoleClient extends Client, EventEmitter {
+export interface ConsoleClient extends EventEmitter {
     on<K extends keyof ConsoleClientEvents>(event: K, listener: (...args: ConsoleClientEvents[K]) => void): this;
     on<S extends string | symbol>(
         event: Exclude<S, keyof ConsoleClientEvents>,
@@ -153,6 +153,5 @@ export interface ConsoleClient extends Client, EventEmitter {
     removeAllListeners<K extends keyof ConsoleClientEvents>(event?: K): this;
     removeAllListeners<S extends string | symbol>(event?: Exclude<S, keyof ConsoleClientEvents>): this;
 }
-applyMixins(ConsoleClient, [Client, EventEmitter]);
 
 export default Client;
