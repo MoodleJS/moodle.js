@@ -1,17 +1,19 @@
 # AKORA Moodle Client
 This is a simple Client for moodle, that is inspired by the [moodle-client](https://www.npmjs.com/package/moodle-client) by [mudrd8mz](https://www.npmjs.com/~mudrd8mz), it has built in typings and typings for many endpoints of the Moodle API(which are documented [here](https://learn.cineca.it/pluginfile.php/1/theme_adaptable/adaptablemarketingimages/0/api.htm)), the typings will be extended in the future till hopefully one day al endpoints are built in this package.
 
+<br>
+
 ### Why should i use this package?
 If you ever read the documentation of the Moodle API, then you know that there are hundrets of methods and if you dont have the right documentation the [docs](https://docs.moodle.org) can be hard to read and understand, you still need the documentation to use this package but it provides you most methods with built in types so that you know what you get back and what you need to supply to the request. 
 
 <br><br>
 
---------
+
 # Usage
 ## Creating an instance
 To create an instance of the Client, you use the static `init` method of the Client with an object which contains all needed options to initialize the client. The method will return a Promise wich returns a instance of the `Client` class.
 
-<details><summary>Here an example of an basic Login with your username, and password.</summary><p>
+<details open><summary>Here an example of an basic Login with your username, and password.</summary><p>
 
 > ```js
 > const { Client } = require('akora-moodle');
@@ -24,7 +26,7 @@ To create an instance of the Client, you use the static `init` method of the Cli
 > ```
 </p></details>
 
-<details><summary>You can also log in with a token. (If credentials and token are provided token will be used).</summary><p>
+<details open><summary>You can also log in with a token. (If credentials and token are provided token will be used).</summary><p>
 
 > ```js
 > Client.init({
