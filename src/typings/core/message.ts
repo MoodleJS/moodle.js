@@ -107,25 +107,27 @@ declare namespace message {
             limitnum?: number;
         }
 
+        type message = {
+            id: number,
+            useridfrom: number,
+            useridto: number,
+            subject: string,
+            text: string,
+            fullmessage: string,
+            fullmessageformat: number,
+            fullmessagehtml: string,
+            smallmessage: string,
+            notification: number,
+            contexturl: string,
+            contexturlname: string,
+            timecreated: number,
+            timeread: number,
+            usertofullname: string,
+            userfromfullname: string,
+        }
+
         type response = {
-            messages: {
-                id: number,
-                useridfrom: number,
-                useridto: number,
-                subject: string,
-                text: string,
-                fullmessage: string,
-                fullmessageformat: number,
-                fullmessagehtml: string,
-                smallmessage: string,
-                notification: number,
-                contexturl: string,
-                contexturlname: string,
-                timecreated: number,
-                timeread: number,
-                usertofullname: string,
-                userfromfullname: string,
-            }[],
+            messages: message[],
             warnings: {
                 item: string,
                 itemid: number,
@@ -192,14 +194,16 @@ declare namespace message {
     }
 
     namespace send_instant_messages {
+        type message = {
+            touserid: number
+            text: string
+            /** text format (1 = HTML, 0 = MOODLE, 2 = PLAIN or 4 = MARKDOWN) */
+            textformat: 0 | 1 | 2 | 4;
+            clientmsgid?: string;
+        }
+
         type args = {
-            messages: {
-                touserid: number
-                text: string
-                /** text format (1 = HTML, 0 = MOODLE, 2 = PLAIN or 4 = MARKDOWN) */
-                textformat: 0 | 1 | 2 | 4;
-                clientmsgid?: string;
-            }
+            messages: message[];
         }
 
         type response = {
