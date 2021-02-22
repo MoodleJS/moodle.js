@@ -11,7 +11,8 @@ If you ever read the documentation of the Moodle API, then you know that there a
 ## Creating an instance
 To create an instance of the Client, you use the static `init` method of the Client with an object which contains all needed options to initialize the client. The method will return a Promise wich returns a instance of the `Client` class.
 
-> Here an example of an basic Login with your username, and password.
+<details><summary>Here an example of an basic Login with your username, and password.</summary><p>
+
 > ```js
 > const { Client } = require('akora-moodle');
 > 
@@ -21,14 +22,17 @@ To create an instance of the Client, you use the static `init` method of the Cli
 >     password: 'SuPeRsecRet'
 > })
 > ```
+</p></details>
 
-> You can also log in with a token. (If credentials and token are provided token will be used).
+<details><summary>You can also log in with a token. (If credentials and token are provided token will be used).</summary><p>
+
 > ```js
 > Client.init({
 >     wwwroot: 'https://moodle.your-school.de/',
 >     token: 'yourtokengoesbrrrrrr'
 > })
 > ```
+</p></details>
 
 <br><br>
 
@@ -39,7 +43,8 @@ At the moment all implemented methods can be found in the `client.core` property
 
 <br>
 
-> Here is a short example which gives you informations about the current logged in user.
+<details><summary>Here is a short example which gives you informations about the current logged in user.</summary><p>
+
 > ```js
 > const { Client } = require('akora-moodle');
 > 
@@ -54,10 +59,12 @@ At the moment all implemented methods can be found in the `client.core` property
 >     console.log('Something went wrong ._.', err);
 > });
 > ```
+</p></details>
 
 <br>
 
-> Here is a short example which returns you an array of course contents.
+<details><summary>Here is a short example which returns you an array of course contents.</summary><p>
+
 > ```js
 > const { Client } = require('akora-moodle');
 > 
@@ -74,6 +81,7 @@ At the moment all implemented methods can be found in the `client.core` property
 >     console.log('Something went wrong ._.', err);
 > });
 > ```
+</p></details>
 
 <br>
 
@@ -82,7 +90,8 @@ At the moment all implemented methods can be found in the `client.core` property
 ## Custom API Calls
 At the moment not even nearly all methods are implemented, so you might often want to use the `client.call` method to make a custom API Requests.
 
-> An example
+<details><summary>An example</summary><p>
+
 > ```js
 > const { Client } = require('akora-moodle');
 > 
@@ -102,7 +111,7 @@ At the moment not even nearly all methods are implemented, so you might often wa
 >     console.log('Something went wrong ._.', err);
 > });
 > ```
-
+</p></details>
 
 
 <br>
@@ -110,7 +119,8 @@ At the moment not even nearly all methods are implemented, so you might often wa
 ----------
 
 ## Advanced Client settings
-> All custom Settings
+<details><summary>All custom Settings</summary><p>
+
 > ```js
 > const { Client } = require('akora-moodle');
 > 
@@ -125,3 +135,4 @@ At the moment not even nearly all methods are implemented, so you might often wa
 >     logger: true
 > })
 > ```
+</p></details>
