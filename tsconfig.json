@@ -23,5 +23,13 @@
     },
     "include": [
         "src"
-    ]
+    ],
+    "typedocOptions": {
+        "name": "AKORA Moodle Documentation",
+        "out": "docs",
+        "readme": "./README.md",
+        "theme": "default",
+        "excludeInternal": true,
+        "toc": []
+    }
 }

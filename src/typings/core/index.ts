@@ -4,6 +4,9 @@ import message_ from './message';
 
 import { BaseModule, CallOptions, BaseClient as Client } from '../../base';
 
+/**
+ * @category Core
+ */
 export declare namespace Core {
     export import calendar = calendar_;
     export import course = course_;

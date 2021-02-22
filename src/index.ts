@@ -1,3 +1,8 @@
+/**
+  * @packageDocumentation
+  * @module akora-moodle
+  */
+
 import { BaseClient, BaseClientOptions, CallOptions } from './base';
 import { CoreModule } from './typings';
 
