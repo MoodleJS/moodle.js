@@ -1,6 +1,7 @@
 import { BaseClient, BaseClientOptions, CallOptions } from './base';
+import { CoreModule } from './typings';
 
-export { Logger, BaseClient } from './base';
+export { Logger } from './base';
 export * as typings from './typings';
 
 
@@ -39,6 +40,8 @@ export class Client extends BaseClient {
     }
 }
 
+export default Client;
+
 function moodlefy<T>(obj: T): T {
     for (const k in obj)
         switch (typeof obj[k]) {
@@ -57,5 +60,3 @@ function moodlefy<T>(obj: T): T {
 
     return obj;
 }
-
-import { CoreModule } from './typings';
