@@ -25,11 +25,15 @@
         "src"
     ],
     "typedocOptions": {
+        "mode": "file",
         "name": "AKORA Moodle Documentation",
         "out": "docs",
         "readme": "./README.md",
         "theme": "default",
-        "excludeInternal": true,
+        "includeVersion": true,
+        "entryPoints": [
+            "src/index.ts"
+        ],
         "toc": []
     }
 }

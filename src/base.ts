@@ -1,21 +1,5 @@
-/**
- * API client for the moodle web services.
- *
- * This is a thin wrapper around the request-promise module to simplify the
- * common querying Moodle external functions exposed via web services.  The
- * client uses webservice/rest/server.php end-point and supports authentication
- * via permanent tokens (which can be provided explicitly or obtained via login).
- *
- * @module moodle-client
- * @author David Mudrak <david@moodle.com>
- * @license BSD-2-Clause
- */
-
 import request from 'request-promise-native';
 import 'colors';
-
-
-
 
 
 

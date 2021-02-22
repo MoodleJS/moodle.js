@@ -1,6 +1,6 @@
 /**
-  * @packageDocumentation
   * @module akora-moodle
+  * @category Category Name
   */
 
 import { BaseClient, BaseClientOptions, CallOptions } from './base';
