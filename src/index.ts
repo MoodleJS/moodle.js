@@ -25,10 +25,29 @@ export class Client extends BaseClient {
     private moduleCall<Response, Args = any>(opts: CallOptions<Args>): Promise<Response> {
         return this.call({
             wsfunction: opts.endpoint,
-            args: moodlefy(opts.args),
+            args: this.moodlefy(opts.args),
             method: opts.method,
             settings: opts.settings
         })
+    }
+
+    protected moodlefy<T>(obj: T): T {
+        for (const k in obj)
+            switch (typeof obj[k]) {
+                case 'object':
+                    if (Array.isArray(obj[k]))
+                        for (const i in obj[k]) obj[k][i] = this.moodlefy(obj[k][i]);
+                    else obj[k] = this.moodlefy(obj[k]);
+                    break;
+                default:
+                    //@ts-ignore
+                    if (obj[k] === true) obj[k] = 1;
+                    //@ts-ignore
+                    if (obj[k] === false) obj[k] = 0;
+                    break;
+            }
+
+        return obj;
     }
 
 
@@ -46,22 +65,3 @@ export class Client extends BaseClient {
 }
 
 export default Client;
-
-function moodlefy<T>(obj: T): T {
-    for (const k in obj)
-        switch (typeof obj[k]) {
-            case 'object':
-                if (Array.isArray(obj[k]))
-                    for (const i in obj[k]) obj[k][i] = moodlefy(obj[k][i]);
-                else obj[k] = moodlefy(obj[k]);
-                break;
-            default:
-                //@ts-ignore
-                if (obj[k] === true) obj[k] = 1;
-                //@ts-ignore
-                if (obj[k] === false) obj[k] = 0;
-                break;
-        }
-
-    return obj;
-}
