@@ -1,4 +1,6 @@
-import request from 'request-promise-native';
+import axios from 'axios';
+import FormData from 'form-data';
+import qs from 'querystring';
 import 'colors';
 
 
@@ -110,6 +112,8 @@ export class BaseClient {
         options.settings.filter ??= false;
 
         var { wsfunction, args, settings } = options;
+        const form = new FormData();
+
 
         if (!wsfunction) {
             this.logger.error('[call] Missing function name to execute');
@@ -117,12 +121,12 @@ export class BaseClient {
         }
 
         this.logger.debug('[call] Calling web service function %s', wsfunction.bold);
-
-        var req_options: { uri: string } & request.RequestPromiseOptions = {
-            form: undefined,
-            uri: this.wwwroot + '/webservice/rest/server.php',
-            json: true,
-            qs: {
+        var req_options: any = {
+            url: this.wwwroot + '/webservice/rest/server.php',
+            data: undefined,
+            headers: undefined,
+            responseType: 'json',
+            params: {
                 ...args,
                 wstoken: this.token,
                 wsfunction: wsfunction,
@@ -131,25 +135,29 @@ export class BaseClient {
                 moodlewssettingfileurl: settings.fileurl,
                 moodlewssettingfilter: settings.filter
             },
-            qsStringifyOptions: {
-                arrayFormat: 'indices'
+            paramsSerializer: (params: any) => {
+                return qs.stringify(params, undefined, undefined, {
+
+                })
             },
-            strictSSL: this.strictSSL,
             method: options.method
         }
 
 
         if (options.method === 'POST') {
-            req_options.form = req_options.qs;
-            delete req_options.qs;
+            for (const k in req_options.params) form.append(k, req_options.params[k]);
+            delete req_options.params;
+            req_options.data = form;
+            req_options.headers = form.getHeaders();
         } else if (options.method !== 'GET') {
             this.logger.error('[call] Unsupported request method');
             throw '[call] Unsupported request method';
         }
 
-        return request(req_options).then((v) => {
-            if (v.exception) {
-                var err = v as {
+        return axios(req_options).then((v) => {
+            const { data } = v;
+            if (data.exception) {
+                var err = data as {
                     exception: string
                     errorcode: string
                     message: string
@@ -157,30 +165,30 @@ export class BaseClient {
                 this.logger.error('Code:     '.bold, err.errorcode);
                 this.logger.error('Exception:'.bold, err.exception);
                 this.logger.error('Message:  '.bold, err.message);
-                throw v;
+                throw data;
             }
 
-            return v;
+            return data;
         });
     };
 
     async authenticate(username: string, password: string): Promise<this> {
         this.logger.debug('[init] Requesting %s token from %s', this.service, this.wwwroot);
+        const form = new FormData();
+        form.append('service', this.service);
+        form.append('username', username);
+        form.append('password', password);
 
         var options = {
-            uri: this.wwwroot + '/login/token.php',
             method: 'POST',
-            form: {
-                service: this.service,
-                username: username,
-                password: password
-            },
-            strictSSL: this.strictSSL,
-            json: true
+            responseType: 'json',
+            headers: form.getHeaders(),
+            data: form
         }
 
         try {
-            var res = await request(options)
+            //@ts-ignore
+            var res = (await axios(this.wwwroot + '/login/token.php', options)).data;
             if (res.token) {
                 this.token = res.token;
                 this.logger.debug('[init] Token obtained');
