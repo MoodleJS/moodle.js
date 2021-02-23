@@ -8,7 +8,6 @@
         "madge": "madge --circular ./dist",
         "clean": "rmdir dist /s /q && tsc",
         "test": "npm run madge",
-        "prepare": "npm run clean",
         "prepublishOnly": "npm run clean && npm test"
     },
     "keywords": [
