@@ -2,6 +2,7 @@
 src
 testing
 node_modules
+docs
 
 # Configs
 .vscode
