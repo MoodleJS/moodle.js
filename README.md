@@ -5,6 +5,8 @@
 
 # AKORA Moodle Client
 This is a simple Client for moodle, that is inspired by the [moodle-client](https://www.npmjs.com/package/moodle-client) by [mudrd8mz](https://www.npmjs.com/~mudrd8mz), it has built in typings and typings for many endpoints of the Moodle API(which are documented [here](https://learn.cineca.it/pluginfile.php/1/theme_adaptable/adaptablemarketingimages/0/api.htm)), the typings will be extended in the future till hopefully one day al endpoints are built in this package.
+<br>
+> The Documentation is also available on [GitBook](https://dragoncatm.gitbook.io/moodle/)
 
 <br>
 
