@@ -1,6 +1,6 @@
 {
     "name": "akora-moodle",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "This is a moodle Client for the MoodleAPI that was inspired by the minimalistic moodle-client",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -36,11 +36,10 @@
     "license": "MIT",
     "dependencies": {
         "axios": "^0.21.1",
-        "colors": "^1.4.0",
-        "form-data": "^4.0.0"
+        "colors": "^1.4.0"
     },
     "devDependencies": {
         "@types/node": "^14.14.22",
-        "typedoc": "^0.20.27"
+        "madge": "^4.0.2"
     }
 }
