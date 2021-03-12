@@ -12,9 +12,19 @@
     },
     "keywords": [
         "moodle",
+        "moodle-api",
+        "moodle-client",
         "akora",
         "typed",
-        "typings"
+        "typings",
+        "javascript",
+        "client",
+        "package",
+        "library",
+        "typescript",
+        "types",
+        "ts",
+        "typesafe"
     ],
     "engines": {
         "node": "^12.x.x"
