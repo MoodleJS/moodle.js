@@ -69,7 +69,7 @@ export class BaseClient {
 
         //@ts-ignore
         if (this.token) this.logger.debug('[init] Setting up explicit token');
-        else this.logger.debug('[init] No explicit token provided - Requires' + 'authentication'.bold);
+        else this.logger.debug('[init] No explicit token provided - Requires', 'authentication'.bold);
 
         if (!this.strictSSL) {
             this.logger.warn('[init] SSL certificates not required to be valid');

@@ -1,47 +1,45 @@
 {
-  "name": "akora-moodle",
-  "version": "1.0.3",
-  "description": "This is a moodle Client for the MoodleAPI that was inspired by the minimalistic moodle-client",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "madge": "madge --circular ./dist",
-    "clean": "rmdir dist /s /q && tsc",
-    "test": "npm run madge",
-    "prepublishOnly": "npm run clean && npm test"
-  },
-  "keywords": [
-    "moodle",
-    "akora",
-    "typed",
-    "typings"
-  ],
-  "contributors": [
-    {
-      "name": "A-K-O-R-A",
-      "url": "https://github.com/A-K-O-R-A"
+    "name": "akora-moodle",
+    "version": "1.0.4",
+    "description": "This is a moodle Client for the MoodleAPI that was inspired by the minimalistic moodle-client",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "madge": "madge --circular ./dist",
+        "clean": "rmdir dist /s /q && tsc",
+        "test": "npm run madge",
+        "prepublishOnly": "npm run clean && npm test"
     },
-    {
-      "name": "DragonCat4012",
-      "url": "https://github.com/DragonCat4012"
+    "keywords": [
+        "moodle",
+        "akora",
+        "typed",
+        "typings"
+    ],
+    "contributors": [
+        {
+            "name": "A-K-O-R-A",
+            "url": "https://github.com/A-K-O-R-A"
+        },
+        {
+            "name": "DragonCat4012",
+            "url": "https://github.com/DragonCat4012"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/AKORA-Studios/MoodleClient.git"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "colors": "^1.4.0"
+    },
+    "devDependencies": {
+        "@types/node": "^14.14.22",
+        "madge": "^4.0.2"
     }
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/AKORA-Studios/MoodleClient.git"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "colors": "^1.4.0"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.22",
-    "madge": "^4.0.2",
-    "typedoc": "^0.20.27",
-    "typescript": "^4.2.3"
-  }
 }
