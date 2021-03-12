@@ -1,11 +1,6 @@
 import axios from 'axios';
-import FormData from 'form-data';
 import qs from 'querystring';
 import 'colors';
-
-
-
-
 
 type LoggerFunction = (() => any) | ((...data: any[]) => any);
 export type Logger = {
@@ -112,8 +107,6 @@ export class BaseClient {
         options.settings.filter ??= false;
 
         var { wsfunction, args, settings } = options;
-        const form = new FormData();
-
 
         if (!wsfunction) {
             this.logger.error('[call] Missing function name to execute');
@@ -143,12 +136,13 @@ export class BaseClient {
             method: options.method
         }
 
-
         if (options.method === 'POST') {
-            for (const k in req_options.params) form.append(k, req_options.params[k]);
-            delete req_options.params;
-            req_options.data = form;
-            req_options.headers = form.getHeaders();
+            //The server will only accept form-encoded data
+            req_options.headers = { 'content-type': 'application/x-www-form-urlencoded' };
+            req_options.data = Object.keys(req_options.data)
+                .map((key) => `${key}=${encodeURIComponent(req_options.data[key])}`)
+                .join('&');
+
         } else if (options.method !== 'GET') {
             this.logger.error('[call] Unsupported request method');
             throw '[call] Unsupported request method';
@@ -174,16 +168,18 @@ export class BaseClient {
 
     async authenticate(username: string, password: string): Promise<this> {
         this.logger.debug('[init] Requesting %s token from %s', this.service, this.wwwroot);
-        const form = new FormData();
-        form.append('service', this.service);
-        form.append('username', username);
-        form.append('password', password);
+
+        const data: { [k: string]: string } = {
+            service: this.service ? this.service : 'moodle_mobile_app',
+            username,
+            password
+        };
 
         var options = {
             method: 'POST',
             responseType: 'json',
-            headers: form.getHeaders(),
-            data: form
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
+            data: Object.keys(data).map((key) => `${key}=${encodeURIComponent(data[key])}`).join('&')
         }
 
         try {
