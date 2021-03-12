@@ -139,9 +139,12 @@ export class BaseClient {
         if (options.method === 'POST') {
             //The server will only accept form-encoded data
             req_options.headers = { 'content-type': 'application/x-www-form-urlencoded' };
-            req_options.data = Object.keys(req_options.data)
-                .map((key) => `${key}=${encodeURIComponent(req_options.data[key])}`)
+            req_options.data = Object.keys(req_options.params)
+                .map((key) => `${key}=${encodeURIComponent(req_options.params[key])}`)
                 .join('&');
+
+            //Params is no longer needed
+            delete req_options.params;
 
         } else if (options.method !== 'GET') {
             this.logger.error('[call] Unsupported request method');
