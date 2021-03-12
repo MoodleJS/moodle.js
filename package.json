@@ -16,6 +16,9 @@
         "typed",
         "typings"
     ],
+    "engines": {
+        "node": "^12.x.x"
+    },
     "contributors": [
         {
             "name": "A-K-O-R-A",
