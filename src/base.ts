@@ -173,7 +173,7 @@ export class BaseClient {
         this.logger.debug('[init] Requesting %s token from %s', this.service, this.wwwroot);
 
         const data: { [k: string]: string } = {
-            service: this.service ? this.service : 'moodle_mobile_app',
+            service: this.service ?? 'moodle_mobile_app',
             username,
             password
         };
