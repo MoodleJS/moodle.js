@@ -1,9 +1,9 @@
-[![NPM Version](https://img.shields.io/npm/v/akora-moodle?color=00DEC8&style=for-the-badge)](https://www.npmjs.com/package/akora-moodle)
-[![NPM Downloads](https://img.shields.io/npm/dt/akora-moodle?color=00DEC8&style=for-the-badge)](https://www.npmjs.com/package/akora-moodle)
-[![NPM License](https://img.shields.io/npm/l/akora-moodle?color=00DEC8&style=for-the-badge)](https://www.npmjs.com/package/akora-moodle)
-[![Github Size](https://img.shields.io/github/repo-size/discord-card/levelcard?color=00DEC8&label=SIZE&style=for-the-badge)](https://www.npmjs.com/package/akora-moodle)
+[![NPM Version](https://img.shields.io/npm/v/moodle.js?color=00DEC8&style=for-the-badge)](https://www.npmjs.com/package/moodle.js)
+[![NPM Downloads](https://img.shields.io/npm/dt/moodle.js?color=00DEC8&style=for-the-badge)](https://www.npmjs.com/package/moodle.js)
+[![NPM License](https://img.shields.io/npm/l/moodle.js?color=00DEC8&style=for-the-badge)](https://www.npmjs.com/package/moodle.js)
+[![Github Size](https://img.shields.io/github/repo-size/discord-card/levelcard?color=00DEC8&label=SIZE&style=for-the-badge)](https://www.npmjs.com/package/moodle.js)
 
-# AKORA Moodle Client
+# Moodle.JS
 This is a simple Client for moodle, that is inspired by the [moodle-client](https://www.npmjs.com/package/moodle-client) by [mudrd8mz](https://www.npmjs.com/~mudrd8mz), it has built in typings and typings for many endpoints of the Moodle API(which are documented [here](https://learn.cineca.it/pluginfile.php/1/theme_adaptable/adaptablemarketingimages/0/api.htm)), the typings will be extended in the future till hopefully one day al endpoints are built in this package.
 <br>
 > The Documentation is also available on [GitBook](https://dragoncatm.gitbook.io/moodle/)
@@ -18,7 +18,7 @@ If you ever read the documentation of the Moodle API, then you know that there a
 # Getting started
 ## Installation
 ```bash
-npm install akora-moodle
+npm install moodle.js
 ```
 
 ## Creating an instance
@@ -27,7 +27,7 @@ To create an instance of the Client, you use the static `init` method of the Cli
 <details open><summary>Here an example of an basic Login with your username, and password.</summary><p>
 
 > ```js
-> const { Client } = require('akora-moodle');
+> const { Client } = require('moodle.js');
 > 
 > Client.init({
 >     wwwroot: 'https://moodle.your-school.de/',
@@ -59,7 +59,7 @@ At the moment all implemented methods can be found in the `client.core` property
 <details><summary>Here is a short example which gives you informations about the current logged in user.</summary><p>
 
 > ```js
-> const { Client } = require('akora-moodle');
+> const { Client } = require('moodle.js');
 > 
 > Client.init({
 >     wwwroot: 'https://moodle.your-school.de/',
@@ -79,7 +79,7 @@ At the moment all implemented methods can be found in the `client.core` property
 <details><summary>Here is a short example which returns you an array of course contents.</summary><p>
 
 > ```js
-> const { Client } = require('akora-moodle');
+> const { Client } = require('moodle.js');
 > 
 > client.init({
 >     wwwroot: 'https://moodle.your-school.de/',
@@ -106,7 +106,7 @@ At the moment not even nearly all methods are implemented, so you might often wa
 <details><summary>An example</summary><p>
 
 > ```js
-> const { Client } = require('akora-moodle');
+> const { Client } = require('moodle.js');
 > 
 > Client.init({
 >     wwwroot: 'https://moodle.your-school.de/',
@@ -135,7 +135,7 @@ At the moment not even nearly all methods are implemented, so you might often wa
 <details><summary>All custom Settings</summary><p>
 
 > ```js
-> const { Client } = require('akora-moodle');
+> const { Client } = require('moodle.js');
 > 
 > Client.init({
 >     wwwroot: 'https://moodle.your-school.de/',

@@ -1,5 +1,5 @@
 /**
-  * @module akora-moodle
+  * @module moodle.js
   * @category Category Name
   */
 
