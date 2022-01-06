@@ -9,3 +9,4 @@ docs
 package-lock.json
 testing
 *.tgz
+npm.txt

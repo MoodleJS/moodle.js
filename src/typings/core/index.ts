@@ -18,9 +18,8 @@ export declare namespace Core {
         COURSECAT = '40',
         COURSE = '50',
         MODULE = '70',
-        BLOCK = '80',
+        BLOCK = '80'
     }
-
 
     export namespace badges_get_user_badges {
         type args = {
@@ -30,70 +29,69 @@ export declare namespace Core {
             perpage?: number;
             search?: string;
             onlypublic?: 0 | 1;
-        }
+        };
 
         type response = {
             badges: {
-                id: number,
-                name: string,
-                description: string,
-                badgeurl: string,
-                timecreated: number,
-                timemodified: number,
-                usercreated: number,
-                usermodified: number,
-                issuername: string,
-                issuerurl: string,
-                issuercontact: string,
-                expiredate: number,
-                expireperiod: number,
-                type: number,
-                courseid: number,
-                message: string,
-                messagesubject: string,
-                attachment: number,
-                status: number,
-                issuedid: number,
-                uniquehash: string,
-                dateissued: number,
-                dateexpire: number,
-                visible: number,
-            }[],
+                id: number;
+                name: string;
+                description: string;
+                badgeurl: string;
+                timecreated: number;
+                timemodified: number;
+                usercreated: number;
+                usermodified: number;
+                issuername: string;
+                issuerurl: string;
+                issuercontact: string;
+                expiredate: number;
+                expireperiod: number;
+                type: number;
+                courseid: number;
+                message: string;
+                messagesubject: string;
+                attachment: number;
+                status: number;
+                issuedid: number;
+                uniquehash: string;
+                dateissued: number;
+                dateexpire: number;
+                visible: number;
+            }[];
             warnings: {
-                item: string,
-                itemid: number,
-                warningcode: string,
-                message: string,
-            }[]
-        }
+                item: string;
+                itemid: number;
+                warningcode: string;
+                message: string;
+            }[];
+        };
     }
 
     export namespace block_get_course_blocks {
         type args = {
             courseid: string;
-        }
+        };
 
         type response = {
             /* Block instance id. */
-            instanceid: number
+            instanceid: number;
             /* Block name. */
-            name: string
+            name: string;
             /* Block region. */
-            region: string
+            region: string;
             /* Position id. */
-            positionid: number
+            positionid: number;
             /* Whether the block is collapsible. */
-            collapsible: number
+            collapsible: number;
             /* whether the block is  dockabl. */
-            dockable: number
+            dockable: number;
             warnings?: {
-                item?: string
-                itemid?: number
-                warningcode: string
-                message: string
-            }[]
-        }[]
-
+                item?: string;
+                itemid?: number;
+                warningcode: string;
+                message: string;
+            }[];
+        }[];
     }
 
     export namespace webservice_get_site_info {
@@ -125,13 +123,13 @@ export declare namespace Core {
             usermaxuploadfilesize: number;
             userhomepage: number;
             siteid: number;
-        }
+        };
     }
 
     export namespace core_course_get_contents {
         type args = {
             courseid: string;
-        }
+        };
 
         type response = {
             id: number;
@@ -142,7 +140,7 @@ export declare namespace Core {
             section: number;
             hiddenbynumsections: number;
             modules: Module[];
-        }[]
+        }[];
 
         type Module = {
             id: number;
@@ -156,7 +154,7 @@ export declare namespace Core {
             indent: number;
             contents?: Content[];
             description?: string;
-        }
+        };
 
         type Content = {
             type: 'file' | 'url';
@@ -170,7 +168,7 @@ export declare namespace Core {
             userid?: number;
             author?: string;
             license?: string;
-        }
+        };
     }
 }
 
@@ -181,7 +179,7 @@ class CalendarModule extends BaseModule {
             args: opts.args,
             method: opts.method,
             settings: opts.settings
-        })
+        });
     }
 
     public createCalendarEvents(args?: calendar_.create_calendar_events.args): Promise<calendar_.create_calendar_events.response> {
@@ -198,14 +196,18 @@ class CalendarModule extends BaseModule {
         });
     }
 
-    public getActionEventsByCourse(args?: calendar_.get_action_events_by_course.args): Promise<calendar_.get_action_events_by_course.response> {
+    public getActionEventsByCourse(
+        args?: calendar_.get_action_events_by_course.args
+    ): Promise<calendar_.get_action_events_by_course.response> {
         return this.call({
             endpoint: 'get_action_events_by_course',
             args
         });
     }
 
-    public getActionEventsByTimesort(args?: calendar_.get_action_events_by_timesort.args): Promise<calendar_.get_action_events_by_timesort.response> {
+    public getActionEventsByTimesort(
+        args?: calendar_.get_action_events_by_timesort.args
+    ): Promise<calendar_.get_action_events_by_timesort.response> {
         return this.call({
             endpoint: 'get_action_events_by_timesort',
             args
@@ -220,7 +222,7 @@ class CourseModule extends BaseModule {
             args: opts.args,
             method: opts.method,
             settings: opts.settings
-        })
+        });
     }
 
     public checkUpdates(args?: course_.check_updates.args): Promise<course_.check_updates.response> {
@@ -351,7 +353,7 @@ class MessageModule extends BaseModule {
             args: opts.args,
             method: opts.method,
             settings: opts.settings
-        })
+        });
     }
 
     public getMessages(args?: message_.get_messages.args): Promise<message_.get_messages.response> {
@@ -408,7 +410,7 @@ export class CoreModule extends BaseModule {
     }
 
     public getInfo(): Promise<Core.webservice_get_site_info.response> {
-        return this.call({ endpoint: 'core_webservice_get_site_info' })
+        return this.call({ endpoint: 'core_webservice_get_site_info' });
     }
 
     public getBadgesAndWarnings(args?: Core.badges_get_user_badges.args): Promise<Core.badges_get_user_badges.response> {
@@ -421,36 +423,37 @@ export class CoreModule extends BaseModule {
 
     public getAllCourses(): Promise<Core.course.get_courses_by_field.response> {
         return this.call({
-            endpoint: 'core_course_get_courses_by_field',
-        })
+            endpoint: 'core_course_get_courses_by_field'
+        });
     }
 
     public getUpdateCourse() {
         return this.call({
             endpoint: 'core_course_check_updates',
-            args: [{
-                courseid: 3260,
-                tocheck: [{ contextlevel: 'module', id: 50, since: new Date().getTime() }]
-                //          19189
-                //          4041
-            }]
-        })
+            args: [
+                {
+                    courseid: 3260,
+                    tocheck: [{ contextlevel: 'module', id: 50, since: new Date().getTime() }]
+                    //          19189
+                    //          4041
+                }
+            ]
+        });
     }
 
     public getModules(args: Core.core_course_get_contents.args): Promise<Core.core_course_get_contents.response> {
         return this.call({
             endpoint: 'core_course_get_contents',
             args
-        })
+        });
     }
 
     public getCourseBlocks(args: Core.block_get_course_blocks.args): Promise<Core.block_get_course_blocks.response> {
         return this.call({
             endpoint: 'core_block_get_course_blocks',
             args
-        })
+        });
     }
-
 
     public getMessages(args: Core.message.get_messages.args): Promise<Core.message.get_messages.response> {
         return this.call({
