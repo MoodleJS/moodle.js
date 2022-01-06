@@ -20,26 +20,26 @@ export type BaseClientOptions = {
     /** If set to false, SSL certificates do not need to be valid. */
     strictSSL?: boolean;
     /** The access token to use */
-    token: string;
+    token?: string;
     /** The username to use to authenticate us (if no token provided). */
-    username: string;
+    username?: string;
     /** The password to use to authenticate us (if no token provided). */
-    password: string;
+    password?: string;
 };
 
 //A default Logger implementation
 export const Logger = {
     debug: (...str: any[]) => {
-        console.debug(`[debug]`.bgGreen.black.bold, ...str.slice(1));
+        console.debug(`[debug]`.bgGreen.black.bold, ...str);
     },
     info: (...str: any[]) => {
-        console.info(`[info ]`.bgCyan.black.bold, ...str.slice(1));
+        console.info(`[info ]`.bgCyan.black.bold, ...str);
     },
     warn: (...str: any[]) => {
-        console.warn(`[warn ]`.bgYellow.black.bold, ...str.slice(1));
+        console.warn(`[warn ]`.bgYellow.black.bold, ...str);
     },
     error: (...str: any[]) => {
-        console.error(`[error]`.bgRed.black.bold, ...str.slice(1));
+        console.error(`[error]`.bgRed.black.bold, ...str);
     }
 };
 
@@ -71,7 +71,12 @@ export class BaseClient {
         this.wwwroot = options.wwwroot;
 
         this.service = options.service ?? 'moodle_mobile_app';
-        if (!options.service) this.logger.debug('[init] Using default service %s', 'moodle_mobile_app'.bold);
+        if (!options.service) this.logger.debug("[init] Using default service 'moodle_mobile_app'");
+
+        this.strictSSL = options.strictSSL ?? false;
+        if (!this.strictSSL) {
+            this.logger.warn('[init] SSL certificates are not required to be valid');
+        }
 
         if (options.token) {
             this.logger.debug('[init] Using explicit token');
@@ -84,11 +89,6 @@ export class BaseClient {
         } else {
             this.logger.debug('[init] No credentials provided but required');
             throw new Error('credentials missing in options (Provide token or username & password)');
-        }
-
-        this.strictSSL = options.strictSSL ?? false;
-        if (!this.strictSSL) {
-            this.logger.warn('[init] SSL certificates are not required to be valid');
         }
     }
 
@@ -133,7 +133,7 @@ export class BaseClient {
             this.tokenPromise = undefined;
         }
 
-        this.logger.debug('[call] Calling web service function %s', wsfunction.bold);
+        this.logger.debug('[call] Calling web service function', "'" + wsfunction + "'");
         var req_options: any = {
             url: this.wwwroot + '/webservice/rest/server.php',
             data: undefined,
@@ -187,7 +187,7 @@ export class BaseClient {
     }
 
     private async authenticate(username: string, password: string): Promise<string> {
-        this.logger.debug('[init] Requesting %s token from %s', this.service, this.wwwroot);
+        this.logger.debug('[init] Requesting token from API');
 
         const data: { [k: string]: string } = {
             service: this.service,

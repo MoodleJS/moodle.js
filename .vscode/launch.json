@@ -41,7 +41,8 @@
             "command": "npm test",
             "name": "NPM Test",
             "request": "launch",
-            "type": "node-terminal"
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}"
         },
     ]
 }

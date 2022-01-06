@@ -14,3 +14,7 @@ tsconfig.json
 .gitattributes
 *.map
 *.tgz
+npm.txt
+test.*
+.prettierrc
+.env

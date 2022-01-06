@@ -4,6 +4,7 @@ dist
 .vscode
 .VSCodeCounter
 docs
+.env
 
 # Dev Only
 package-lock.json
