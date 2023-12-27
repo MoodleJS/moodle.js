@@ -44,7 +44,7 @@
     },
     "license": "MIT",
     "dependencies": {
-        "axios": "^0.26.0",
+        "axios": "^1.6.3",
         "colors": "^1.4.0"
     },
     "devDependencies": {
